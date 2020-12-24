@@ -1,0 +1,15 @@
+.PageTitle {
+    display: flex;
+    flex-flow: column;
+    margin: 0 3rem;
+}
+
+.PageTitle > h1 {
+    color: #fff;
+    margin: 0;
+}
+
+.PageTitle > div {
+    background-image: linear-gradient(to right, white, #5B84B1);
+    height: 5px;
+}

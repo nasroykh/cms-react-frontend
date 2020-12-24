@@ -1,0 +1,16 @@
+.MainHeader {
+    color: #fff;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.MainHeader > * {
+    margin: 0;
+    padding: 0;
+}
+
+.MainHeader > h3 {
+    margin-top: 1rem;
+}

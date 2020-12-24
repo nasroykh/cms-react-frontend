@@ -1,0 +1,15 @@
+.LandingPage {
+
+}
+
+.Buttons {
+    display: grid;
+    margin-top: 10rem ;
+    grid-template-columns: repeat(3, auto);
+    row-gap: 5rem;
+    justify-content: space-evenly;
+}
+
+.Buttons :last-child {
+    grid-column: 2 / 3;
+}

@@ -1,0 +1,13 @@
+.BackBtn {
+    background-color: #fff;
+    display: flex;
+    height: 5rem;
+    border-radius: 0 10px 10px 0;
+    align-items: center;
+}
+
+.BackBtn > input {
+    width: 30px;
+    margin: 1.2rem;
+    margin-left: 2rem;
+}

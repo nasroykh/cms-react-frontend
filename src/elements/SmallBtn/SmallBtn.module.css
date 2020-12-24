@@ -1,0 +1,20 @@
+.SmallBtn {
+    background-color: #fff;
+    width: 10rem;
+    height: 4rem;
+    display: flex;
+    font-size: 1.2rem;
+    align-items: center;
+    color: #5B84B1;
+    text-align: center;
+    justify-content: center;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 0 1rem;
+    transition: transform 200ms ease-in-out;
+}
+
+.SmallBtn:hover {
+    transform: scale(1.04,1.04);
+}
