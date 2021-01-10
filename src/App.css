@@ -1,8 +1,5 @@
 .App {
-	background-color: #5B84B1;
-	width: 100vw;
-	height: 100vh;
+	background-color: #F3F3F3;
+	height: 100%;
 	overflow: hidden;
-	font-family: "Open Sans";
-	font-size: 20px;
 }

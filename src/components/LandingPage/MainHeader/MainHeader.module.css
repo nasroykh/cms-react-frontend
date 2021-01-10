@@ -1,16 +1,23 @@
 .MainHeader {
-    color: #fff;
     display: flex;
-    flex-flow: column;
     align-items: center;
-    margin: 2rem 0;
+    justify-content: space-between;
+    letter-spacing: 0.1em;
+    margin-bottom: auto;
 }
 
-.MainHeader > * {
-    margin: 0;
-    padding: 0;
+.TopLeftHeader {
+    background-color: #3A4750;
+    color: #F3F3F3;
+    padding: 3em 7em;
+    text-align: end;
+    border-radius: 0 0 5px 0;
+    padding-left: 5vw;
 }
 
-.MainHeader > h3 {
-    margin-top: 1rem;
+.TopRightHeader {
+    color: #3A4750;
+    padding-right: 5vw;
 }
+
+

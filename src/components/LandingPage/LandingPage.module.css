@@ -1,15 +1,9 @@
 .LandingPage {
-
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.Buttons {
-    display: grid;
-    margin-top: 10rem ;
-    grid-template-columns: repeat(3, auto);
-    row-gap: 5rem;
-    justify-content: space-evenly;
-}
+@media (max-width: 900px) {
 
-.Buttons :last-child {
-    grid-column: 2 / 3;
 }

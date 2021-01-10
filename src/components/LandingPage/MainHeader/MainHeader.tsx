@@ -3,11 +3,15 @@ import classes from './MainHeader.module.css';
 
 const MainHeader = () => {
     return (
-        <div className={classes.MainHeader}>
-            <h1>Centre Médico Social</h1>
-            <h2>Bethioua</h2>
-            <h3>Examens Médicaux</h3>
-        </div>
+        <header className={classes.MainHeader}>
+            <div className={classes.TopLeftHeader}>
+                <h1>Centre Médico Social</h1>
+                <h1>Bethioua</h1>
+            </div>
+            <div className={classes.TopRightHeader}>
+                <h1>Examens Médicaux</h1>
+            </div>
+        </header>
     )
 }
 
