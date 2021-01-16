@@ -1,9 +1,10 @@
-import React, {ChangeEvent, ChangeEventHandler, SyntheticEvent, useState} from 'react';
+import React, {ChangeEvent, SyntheticEvent, useState} from 'react';
 import BackBtn from '../../elements/BackBtn/BackBtn';
 import { NavLink } from 'react-router-dom';
 import SmallBtn from '../../elements/SmallBtn/SmallBtn';
 import PageTitle from '../PageTitle/PageTitle';
 import classes from './FormPage.module.css';
+import axios from 'axios';
 
 const FormPage = (props: any) => {
 
@@ -14,82 +15,88 @@ const FormPage = (props: any) => {
     const [employeur, setEmployeur] = useState('');
     const [benef, setBenef] = useState(
         [
-            {id: '0', title: '--'},
+            {id: '0', title: 'Sélectionner'},
             {id: 'asr', title: 'Assuré'},
             {id: 'cjt', title: 'Conjoint'},
             {id: 'enf', title: 'Enfant'}
         ]);
     const [examen, setExamen] = useState(
         [
-            {id: '0', title: '--'},
-            {id: 'an', title:'Analyses'},
-            {id: 'cg', title:'Consultation généraliste'},
-            {id: 'cs', title:'Consultation spécialiste'},
-            {id: 'dn', title:'Dentiste'},
-            {id: 'in', title:'Infirmerie'}
+            {id: '0', title: 'Sélectionner'},
+            {id: 'anl', title:'Analyses'},
+            {id: 'cg', title:'Consultation généraliste', price_adh: 200, price_nonadh: 300},
+            {id: 'spec', title:'Consultation spécialiste'},
+            {id: 'den', title:'Dentiste'},
+            {id: 'exi', title:'Infirmerie'}
         ]);
-    const [selection, setSelection] = useState({
+    const [selection, setSelection] = useState<{adh_mip: any, benef: any, examen: any, type: any}>({
         adh_mip: props.adh,
         benef: '',
         examen: '',
-        spec: '',
-        exi: ''
+        type: []
     });
     const [montant, setMontant] = useState(0);
     const [spec, setSpec] = useState([
-        {id: 'oph', title:'Ophtalmologie'},
-        {id: 'gyn', title:'Gynécologie'},
-        {id: 'end', title:'Endocrinologie'},
-        {id: 'gas', title:'Gastrologie'},
-        {id: 'pne', title:'Pneumologie'},
-        {id: 'tra', title:'Traumatologie'},
-        {id: 'neu', title:'Neurologie'},
-        {id: 'ped', title:'Pédiatre'},
-        {id: 'uro', title:'Urologie'},
-        {id: 'orl', title:'O.R.L'},
+        {id: 'end', title:'Endocrinologie', price_adh: 600, price_nonadh: 800},
+        {id: 'foe', title:'Fond d\'oeil (Ophtalmologie)', price_adh: 350, price_nonadh: 400},
+        {id: 'gas', title:'Gastrologie', price_adh: 500, price_nonadh: 700},
+        {id: 'gyn', title:'Gynécologie', price_adh: 600, price_nonadh: 800},
+        {id: 'neu', title:'Neurologie', price_adh: 400, price_nonadh: 600},
+        {id: 'orl', title:'O.R.L', price_adh: 400, price_nonadh: 600},
+        {id: 'oph', title:'Ophtalmologie', price_adh: 600, price_nonadh: 800},
+        {id: 'ped', title:'Pédiatre', price_adh: 400, price_nonadh: 600},
+        {id: 'pne', title:'Pneumologie', price_adh: 500, price_nonadh: 700},
+        {id: 'tra', title:'Traumatologie', price_adh: 400, price_nonadh: 600},
+        {id: 'uro', title:'Urologie', price_adh: 500, price_nonadh: 700},
     ]);
     const [exi, setExi] = useState([
-        {id: 'pan', title:'Pansement'},
-        {id: 'abl', title:'Ablation'},
-        {id: 'soi', title:'Soins'},
-        {id: 'pdt', title:'Prise de Tension'},
-        {id: 'inj', title:'Injection'},
-        {id: 'ecg', title:'E C G'},
-        {id: 'efr', title:'E F R'},
-        {id: 'ech', title:'Echographie'},
+        {id: 'abl', title:'Ablation', price_adh: 0, price_nonadh: 0},
+        {id: 'ech', title:'Echographie', price_adh: 0, price_nonadh: 0},
+        {id: 'ecg', title:'E C G', price_adh: 200, price_nonadh: 350},
+        {id: 'efr', title:'E F R', price_adh: 500, price_nonadh: 700},
+        {id: 'inj', title:'Injection', price_adh: 0, price_nonadh: 0},
+        {id: 'pan', title:'Pansement', price_adh: 0, price_nonadh: 0},
+        {id: 'pdt', title:'Prise de Tension', price_adh: 0, price_nonadh: 0},
+        {id: 'soi', title:'Soins', price_adh: 0, price_nonadh: 0},
+    ]);
+    const [den, setDen] = useState([
+        {id: 'con', title:'Consultation', price_adh: 200, price_nonadh: 400},
+        {id: 'det', title:'Détartrage', price_adh: 400, price_nonadh: 800},
+        {id: 'ext', title:'Extraction', price_adh: 300, price_nonadh: 400},
+        {id: 'luv', title:'Lampe UV', price_adh: 500, price_nonadh: 1000},
+        {id: 'sde', title:'Soins dentaire', price_adh: 400, price_nonadh: 800},
     ]);
     const [anl, setAnl] = useState([
-        {id: 'fns', title:'FORMULE NUMIRIQUE SANGUINE (FNS)'},
-        {id: 'vds', title:'VITESSE DE SEDIMENTATION  (VS)'},
-        {id: 'grp', title:'GROUPAGE'},
-        {id: 'gaj', title:'GLYCEMIE A JEU '},
-        {id: 'gpp', title:'GLYCEMIE POSTE-PRANDIALE'},
-        {id: 'ure', title:'UREE '},
-        {id: 'hgl', title:'HEMOGLOBINE GLYCOLYSEE'},
-        {id: 'cre', title:'CREATININE '},    
-        {id: 'cho', title:'CHOLESTEROL'},    
-        {id: 'hdc', title:'HDL CHOLESTEROL'},    
-        {id: 'trg', title:'TRIGLYCERIDEc'},    
-        {id: 'tgo', title:'TGO'},    
-        {id: 'tgp', title:'TGP'},    
-        {id: 'tp', title:'TP'},    
-        {id: 'bdc', title:'BILIRUBINE DIRECT/CONJUGUE'},    
-        {id: 'bic', title:'BILIRUBINE INDIRECTE/NON CONJUGUE'},    
-        {id: 'aur', title:'ACIDE URIQUE '},    
-        {id: 'pha', title:'PHOSPHATASE ALCALINE'},    
-        {id: 'cal', title:'CALICIUM'},    
-        {id: 'pho', title:'PHOSPHORE'},    
-        {id: 'tdp', title:'TAUX DE PROTHTROMBINE (TP)'},    
-        {id: 'cdu', title:'CHIMIE DES URINES'},    
-        {id: 'lat', title:'LATEX'},    
-        {id: 'waa', title:'WAALER'},    
-        {id: 'hbs', title:'ANTIGENE HBS HEPATITE B'},    
-        {id: 'hiv', title:'ANTIGENE HIV HEPATITE'},    
-        {id: 'hcv', title:'ANTIGENE HCV HEPATITE C'},    
-        {id: 'tox', title:'TOXOPLASMOSE igG'},    
-        {id: 'rub', title:'RUBEOLE igm'},    
-        {id: 'crp', title:'CRP'},    
-        {id: 'asl', title:'ASLO'},    
+        {id: 'fns', title:'FORMULE NUMIRIQUE SANGUINE (FNS)', price_adh: 240, price_nonadh: 340},
+        {id: 'vds', title:'VITESSE DE SEDIMENTATION  (VS)', price_adh: 60, price_nonadh: 90},
+        {id: 'grp', title:'GROUPAGE', price_adh: 180, price_nonadh: 210},
+        {id: 'gaj', title:'GLYCEMIE A JEU ', price_adh: 60, price_nonadh: 90},
+        {id: 'gpp', title:'GLYCEMIE POSTE-PRANDIALE', price_adh: 60, price_nonadh: 90},
+        {id: 'ure', title:'UREE ', price_adh: 60, price_nonadh: 90},
+        {id: 'hgl', title:'HEMOGLOBINE GLYCOLYSEE', price_adh: 520, price_nonadh: 0},
+        {id: 'cre', title:'CREATININE ', price_adh: 60, price_nonadh: 90},    
+        {id: 'cho', title:'CHOLESTEROL', price_adh: 60, price_nonadh: 60},    
+        {id: 'hdc', title:'HDL CHOLESTEROL', price_adh: 40, price_nonadh: 60},    
+        {id: 'trg', title:'TRIGLYCERIDE', price_adh: 90, price_nonadh: 130},    
+        {id: 'tgo', title:'TGO', price_adh: 120, price_nonadh: 170},    
+        {id: 'tgp', title:'TGP', price_adh: 120, price_nonadh: 170},    
+        {id: 'bdc', title:'BILIRUBINE DIRECT/CONJUGUE', price_adh: 60, price_nonadh: 90},    
+        {id: 'bic', title:'BILIRUBINE INDIRECTE/NON CONJUGUE', price_adh: 60, price_nonadh: 90},    
+        {id: 'aur', title:'ACIDE URIQUE ', price_adh: 60, price_nonadh: 90},    
+        {id: 'pha', title:'PHOSPHATASE ALCALINE', price_adh: 150, price_nonadh: 210},    
+        {id: 'cal', title:'CALICIUM', price_adh: 60, price_nonadh: 90},    
+        {id: 'pho', title:'PHOSPHORE', price_adh: 60, price_nonadh: 90},    
+        {id: 'tdp', title:'TAUX DE PROTHTROMBINE (TP)', price_adh: 120, price_nonadh: 0},    
+        {id: 'cdu', title:'CHIMIE DES URINES', price_adh: 60, price_nonadh: 90},    
+        {id: 'lat', title:'LATEX', price_adh: 150, price_nonadh: 210},    
+        {id: 'waa', title:'WAALER', price_adh: 150, price_nonadh: 210},    
+        {id: 'hbs', title:'ANTIGENE HBS HEPATITE B', price_adh: 600, price_nonadh: 860},    
+        {id: 'hiv', title:'ANTIGENE HIV HEPATITE', price_adh: 600, price_nonadh: 860},    
+        {id: 'hcv', title:'ANTIGENE HCV HEPATITE C', price_adh: 600, price_nonadh: 860},    
+        {id: 'tox', title:'TOXOPLASMOSE igG', price_adh: 700, price_nonadh: 980},    
+        {id: 'rub', title:'RUBEOLE igm', price_adh: 700, price_nonadh: 980},    
+        {id: 'crp', title:'CRP', price_adh: 150, price_nonadh: 210},    
+        {id: 'asl', title:'ASLO', price_adh: 150, price_nonadh: 210},    
     ])
 
     let ssidChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -122,52 +129,141 @@ const FormPage = (props: any) => {
     
     let examenChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault();
-        console.log(event.target.value)
         setSelection({
             ...selection,
-            examen: event.target.value
+            examen: event.target.value,
+            type: []
         })
+        if ( event.target.value=== 'cg') {
+            if (selection.adh_mip) {
+                setMontant(200);
+            } else {
+                setMontant(300);
+            }
+        } else {
+            setMontant(0);
+        }
+    }
+
+    let checkBoxHandler = (item: any, event: any) => {
+        let selectedType: any[] = selection.type;
+        if (event.target.checked) {
+            selectedType.push(item.id);
+            setSelection({
+                ...selection,
+                type: selectedType
+            })
+            
+            let sum = montant;
+
+            if (selection.adh_mip) {
+                setMontant(sum+=item.price_adh);
+
+            } else {
+                setMontant(sum+=item.price_nonadh);                
+            }
+        }
+        else {
+            let newArr: any[] = selectedType.filter(one => one !== item.id)
+            setSelection({
+                ...selection,
+                type: newArr
+            })
+            let sum = montant;
+
+            if (selection.adh_mip) {
+                setMontant(sum-=item.price_adh);
+
+            } else {
+                setMontant(sum-=item.price_nonadh);                
+            }
+        }
+    }
+
+    let radioHandler = (item: any, event: any) => {
+        let selectedType: any[] = selection.type;
+        if (event.target.checked) {
+            selectedType[0] = item.id;
+            setSelection({
+                ...selection,
+                type: selectedType
+            })
+            
+            if (selection.adh_mip) {
+                setMontant(item.price_adh);
+
+            } else {
+                setMontant(item.price_nonadh);                
+            }
+        }
+        else {
+            let newArr: any[] = selectedType.filter(one => one !== item.id)
+            setSelection({
+                ...selection,
+                type: newArr
+            })
+
+            if (selection.adh_mip) {
+                setMontant(0);
+
+            } else {
+                setMontant(0);                
+            }
+        }
     }
     
     let typeExamen;
     let typeExamenTitle = '';
 
     switch (selection.examen) {
-        case 'cs': 
+        case 'spec': 
             typeExamenTitle = 'Spécialistes';
             typeExamen=(spec.map((item) => ( 
                 <li key={item.id}>
                     <span>
                         {item.title}
                     </span>
-                    <span>100DA</span>
-                    <span className={classes.Checkbox}><input type="checkbox" name="" id={item.id}/></span>
+                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span className={classes.Checkbox}><input onChange={radioHandler.bind(this, item)} type="radio" name="spec" id={item.id}/></span>
                 </li> 
             )))
             break;
         
-        case 'in':
+        case 'exi':
             typeExamenTitle = 'Infirmerie'
             typeExamen=(exi.map((item) => ( 
                 <li key={item.id}>
                     <span>
                         {item.title}
                     </span>
-                    <span>100DA</span>
-                    <span className={classes.Checkbox}><input type="checkbox" name="" id={item.id}/></span>
+                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span className={classes.Checkbox}><input onClick={checkBoxHandler.bind(this, item)} type="checkbox" name="" id={item.id}/></span>
                 </li> 
             )))
             break;
         
-        case 'an':
+        case 'anl':
             typeExamenTitle = 'Analyses'
             typeExamen=(anl.map((item) => ( 
                 <li key={item.id}>
                     <span>
                         {item.title}
                     </span>
-                    <span>100DA</span>
-                    <span className={classes.Checkbox}><input type="checkbox" name="" id={item.id}/></span>
+                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span className={classes.Checkbox}><input onClick={checkBoxHandler.bind(this, item)} type="checkbox" name="" id={item.id}/></span>
+                </li> 
+            )))
+            break;
+
+        case 'den':
+            typeExamenTitle = 'Dentiste'
+            typeExamen=(den.map((item) => ( 
+                <li key={item.id}>
+                    <span>
+                        {item.title}
+                    </span>
+                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span className={classes.Checkbox}><input onClick={checkBoxHandler.bind(this, item)} type="checkbox" name="" id={item.id}/></span>
                 </li> 
             )))
             break;
@@ -176,9 +272,118 @@ const FormPage = (props: any) => {
         default:
             break;   
         }
+
+        let adhFetchHandler = (event: any) => {
+            if ((event.code === 'Enter' || event.code === 'NumpadEnter') && ssid) {
+                axios.post('/fetchAdh', {ssid})
+                    .then(res => {
+                        if (res.data.success) {
+                            let {nom, prenom, employeur} = res.data.adh;
+                            if (selection.adh_mip) {
+                                if (!employeur) {
+                                    setNom(nom);
+                                    setPrenom(prenom);
+                                    employeur=" "
+                                } else {
+                                    const [emp, reg1, reg2] = employeur.split('/');
+                                    setNom(nom);
+                                    setPrenom(prenom);
+                                    setRegime(reg1);
+                                    if (reg2) {
+                                        setRegime(`${reg1} / ${reg2}`);
+                                    }
+                                    setEmployeur(emp);
+                                }
+                            }
+                            else {
+                                alert('Numéro de Sécurité Social déja éxistant !');
+                            }
+                        }
+                    })
+                    .catch(err => alert('ERREUR : VERIFIEZ VOS DONNEES'));
+            } else if ((event.code === 'Enter' || event.code === 'NumpadEnter') && !ssid) {
+                alert('ERREUR : VERIFIEZ VOS DONNEES')
+            }
+        }
         
         let printHandler = () => {
-            window.open('/print');
+
+            localStorage.setItem('ssid',ssid);
+            localStorage.setItem('nom',nom);
+            localStorage.setItem('pre',prenom);
+            localStorage.setItem('reg',regime);
+            localStorage.setItem('emp',employeur);
+            localStorage.setItem('mon',montant.toString());
+
+            let benefTitle;
+            let examTitle;
+            let specTitle;
+
+            if (selection.benef) {
+                let [ben] = benef.filter(item => item.id === selection.benef);
+                localStorage.setItem('ben',ben.title);
+                benefTitle = ben.title;
+            }
+
+            if (selection.examen) {
+                const [exam] = examen.filter(item => item.id === selection.examen);
+                localStorage.setItem('exam',exam.title);
+                examTitle = exam.title;
+            }
+
+            if (selection.examen === 'spec' && selection.type.length) {
+                const [spe] = spec.filter(item => item.id === selection.type[0]);
+                localStorage.setItem('spec',spe.title);
+                specTitle = spe.title;
+
+            }
+
+            let month = new Date().getMonth() + 1;
+            let day = new Date().getDate();
+            let year = new Date().getFullYear();
+
+            let url = '/addPatientNonAdh';
+            let data = {
+                ssid,
+                nom,
+                prenom,
+                employeur: `${employeur}/${regime}`,
+                montant,
+                benefTitle,
+                examTitle,
+                specTitle,
+                date: `${year}-${month}-${day}`
+            }
+
+            if (selection.adh_mip) {
+                url = '/addPatientAdh'
+            }
+
+            axios.post(url,data)
+                .then(res => {
+                    let {success, id} = res.data;
+
+                    if (success) {
+                        localStorage.setItem('bon',id);
+                        window.open('/print');
+                    } else {
+                        alert('ERREUR : VERIFIEZ VOS DONNEES')
+                    }
+                    setTimeout(() => {
+                        localStorage.clear();
+                    }, 3000);
+                })
+                .catch(err => {
+                    alert('ERREUR : VERIFIEZ VOS DONNEES')
+                });
+                
+                
+
+
+        }
+
+        let resetHandler = () => {
+            window.location.reload();
         }
         
     return (
@@ -191,28 +396,28 @@ const FormPage = (props: any) => {
                 <form>
                     <div className={classes.FormInput}>
                         <label htmlFor="">N°SS</label>
-                        <input onChange={ssidChangeHandler} type="text" name="" id="" value={ssid}/>
+                        <input onChange={ssidChangeHandler} pattern="\d*" onKeyDown={adhFetchHandler} type="number" placeholder="Saisissez les données" value={ssid}/>
                     </div>
                     
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Nom</label>
-                            <input onChange={nomChangeHandler} type="text" name="" id="" value={nom} className={props.adh ? classes.DisabledInput : ''}/>
+                            <input onChange={nomChangeHandler} type="text" placeholder="Saisissez les données" value={nom} className={props.adh ? classes.DisabledInput : ''}/>
                         </div>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Prénom</label>
-                            <input onChange={prenomChangeHandler} type="text" name="" id="" value={prenom} className={props.adh ? classes.DisabledInput : ''}/>
+                            <input onChange={prenomChangeHandler} type="text" placeholder="Saisissez les données" value={prenom} className={props.adh ? classes.DisabledInput : ''}/>
                         </div>
                     </div>
                     
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Régime</label>
-                            <input onChange={regimeChangeHandler} type="text" name="" id="" value={regime} className={props.adh ? classes.DisabledInput : ''}/>
+                            <input onChange={regimeChangeHandler} type="text" placeholder="Saisissez les données" value={regime} className={props.adh ? classes.DisabledInput : ''}/>
                         </div>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Employeur</label>
-                            <input onChange={employeurChangeHandler} type="text" name="" id="" value={employeur} className={props.adh ? classes.DisabledInput : ''}/>
+                            <input onChange={employeurChangeHandler} type="text" placeholder="Saisissez les données" value={employeur} className={props.adh ? classes.DisabledInput : ''}/>
                         </div>
                     </div>
 
@@ -233,7 +438,7 @@ const FormPage = (props: any) => {
 
                     <div className={classes.FormInput}>
                         <label htmlFor="">Montant Total</label>
-                        <input type="text" name="" id="" value="100DA" className={classes.SumInput}/>
+                        <input type="text" name="" id="" value={`${montant},00 DA`} className={classes.SumInput}/>
                     </div>
 
                 </form>
@@ -245,7 +450,7 @@ const FormPage = (props: any) => {
                     </ul>
 
                     <div className={classes.Buttons}>
-                        <SmallBtn>Réinitialiser</SmallBtn>
+                        <SmallBtn click={resetHandler}>Réinitialiser</SmallBtn>
                         <SmallBtn click={printHandler}>Imprimer</SmallBtn>
                     </div>
                 </div>

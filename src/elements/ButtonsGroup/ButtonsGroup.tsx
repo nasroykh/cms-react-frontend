@@ -1,8 +1,9 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import classes from './ButtonsGroup.module.css'
+import classes from './ButtonsGroup.module.css';
 
 const ButtonsGroup = (props: any) => {
+
     return (
         <div className={classes.ButtonsGroup}>
             <NavLink to="/adh_mip">
@@ -13,7 +14,7 @@ const ButtonsGroup = (props: any) => {
                 Non-Adhérents MIP
             </NavLink>
             <span></span>
-            <NavLink to="/">
+            <NavLink to="/archives" >
                 Archives
             </NavLink>
         </div>

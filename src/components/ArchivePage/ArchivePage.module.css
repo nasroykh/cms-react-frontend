@@ -1,0 +1,22 @@
+.ArchivePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Buttons {
+    display: flex;
+}
+
+.ArchivePage li {
+    list-style: none;
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid black;
+}
+
+.ArchivePage span {
+    margin: 0 1em;
+    border: 1px solid gray;
+    padding: .5em;
+}

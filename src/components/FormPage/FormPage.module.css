@@ -73,6 +73,12 @@
     background-color: #e7e7e7;
 }
 
+
+.FormInput > input::placeholder {
+    color: #3A4750;
+    opacity: 0.7;
+}
+
 .FormInput > label {
     font-weight: 600;
     color: #3A4750;
