@@ -1,0 +1,165 @@
+.FormPage {
+    border-top: 5vh solid #3A4750;
+    border-bottom: 5vh solid #3A4750;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 5vw;
+    overflow: auto;
+}
+
+.FormHeader {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 2vh 0;
+}
+
+.Form {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.Form > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 49%;
+    height: 100%;
+}
+
+.FormGroup {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+.FormInput {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding-right: 1em;
+}
+
+.BenefInput {
+    width: 40%;
+}
+
+.ExamInput {
+    width: 60%;
+}
+
+.FormInput > input, .FormInput select {
+    background: none;
+    border: none;
+    outline: none;
+    border-bottom: 2px #3A4750 solid;
+    color: #3A4750;
+    font-size: 1.3em;
+    padding: .2em;
+}
+
+.DisabledInput {
+    pointer-events: none;
+}
+
+.FormInput > select > *{
+    background-color: #F3F3F3;
+    color: #3A4750;
+}
+
+.FormInput > input:focus {
+    background-color: #e7e7e7;
+}
+
+
+.FormInput > input::placeholder {
+    color: #3A4750;
+    opacity: 0.7;
+}
+
+.FormInput > label {
+    font-weight: 600;
+    color: #3A4750;
+    font-size: 1.8em;
+    margin-bottom: .2em;
+}
+
+.SumInput {
+    pointer-events: none;
+}
+
+.Side {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 48%;
+}
+
+.Side > h2 {
+    font-weight: 600;
+    color: #3A4750;
+    font-size: 1.8em;
+    margin-bottom: 1em;
+}
+
+.Specs {
+    overflow-y: auto;
+    height: 50vh;
+}
+
+.Specs > li {
+    display: grid;
+    grid-template-columns: 8fr 2fr 1fr;
+    list-style: none;
+    padding: 1em 0;
+    color: #3A4750;
+    border-bottom: 2px solid #3A4750;
+    align-items: center;
+}
+
+.Specs > li:last-child {
+    border: none;
+}
+
+.Checkbox {
+    width: 2em;
+    height: 2em;
+    border-radius: 5px;
+    border: #3A4750 2px solid;
+}
+
+.Checkbox > input {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    appearance: none;
+    content: url("../../assets/unchecked.svg");
+    width: 100%;
+    height: 100%;
+}
+
+.Checkbox >input:checked {
+    content: url("../../assets/checked.svg");
+}
+
+
+.Buttons {
+    margin: auto 0 2em;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+@media (max-width: 630px) {
+    .FormGroup:nth-child(4) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .BenefInput , .ExamInput {
+        width: 100%;
+    }
+
+}

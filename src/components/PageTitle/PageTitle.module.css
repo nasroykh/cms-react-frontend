@@ -1,0 +1,5 @@
+.PageTitle {
+    display: flex;
+    flex-flow: column;
+    color: #3A4750;
+}

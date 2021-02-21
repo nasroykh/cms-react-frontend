@@ -1,0 +1,23 @@
+.BackBtn {
+    background-color: #3A4750;
+    display: flex;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    align-items: center;
+    font-size: 1em;
+    color: #F3F3F3;
+    font-weight: bold;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.BackBtn > * {
+    padding: 1.5em 2em;
+}
+
+.BackBtn:hover {
+    background-color: #303841;
+    transform: scale(1.02,1.02);
+}

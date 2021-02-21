@@ -1,0 +1,35 @@
+.ButtonsGroup {
+    background-color: #3A4750;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 5vw 15vh;
+    border-radius: 5px;
+}
+
+.ButtonsGroup > a{
+    outline: none;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    background-color: #3A4750;
+    color: #F3F3F3;
+    font-size: 1.4em;
+    transition: background 200ms ease-in-out;
+    font-weight: bold;
+    width: 100%;
+    padding: 2.5em 3em;
+    height: 100%;
+    cursor: pointer;
+    text-align: center;
+}
+
+.ButtonsGroup span {
+    height: 50%;
+    background-color: #F3F3F3;
+    width: 7px;
+}
+
+.ButtonsGroup > a:hover {
+    background-color: #303841;
+}
