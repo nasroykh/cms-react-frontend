@@ -13,11 +13,16 @@
     text-decoration: none;
 }
 
+.BackBtn input {
+    outline: none;
+}
+
 .BackBtn > * {
     padding: 1.5em 2em;
 }
 
-.BackBtn:hover {
+.BackBtn:hover,
+.BackBtn:focus {
     background-color: #303841;
     transform: scale(1.02,1.02);
 }

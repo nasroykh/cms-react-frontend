@@ -24,12 +24,17 @@
     text-align: center;
 }
 
+.ButtonsGroup > a:focus {
+
+}
+
 .ButtonsGroup span {
     height: 50%;
     background-color: #F3F3F3;
     width: 7px;
 }
 
+.ButtonsGroup > a:focus,
 .ButtonsGroup > a:hover {
     background-color: #303841;
 }

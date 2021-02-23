@@ -10,12 +10,16 @@
 }
 
 #root {
-  height: 100vh;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
 }
 
 body, html {
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
 }
 
 body {

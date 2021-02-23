@@ -1,22 +1,53 @@
 .ArchivePage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 0 1em;
+    margin-top: 2em;
+    text-align: center;
 }
 
 .Buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+}
+
+.Buttons > div {
     display: flex;
 }
 
-.ArchivePage li {
-    list-style: none;
-    margin: 1em;
-    padding: 1em;
-    border: 1px solid black;
+.Buttons input {
+    color: #3A4750;
+    font-weight: 700;
 }
 
-.ArchivePage span {
-    margin: 0 1em;
-    border: 1px solid gray;
+.TableWrapper {
+    overflow: auto;
+    height: 77.5vh;
+    margin: 2em 0;
+}
+
+.ArchivePage table {
+    width: 100%;
+}
+
+.ArchivePage td, .ArchivePage th {
     padding: .5em;
+    font-size: 1.2rem;
+}
+
+.ArchivePage td:last-child {
+    border-right: none;
+}
+
+.ArchivePage th  {
+    border-top: none;
+    background-color: #3A4750;
+    color: white;
+}
+
+.ArchivePage th:last-child {
+    border: none;
+}
+
+.ArchivePage tbody tr:nth-child(even) {
+    background-color: rgba(58, 71, 80, 0.05);
 }

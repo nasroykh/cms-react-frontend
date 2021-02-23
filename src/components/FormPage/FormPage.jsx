@@ -10,8 +10,15 @@ const FormPage = (props) => {
     const [ssid, setSsid] = useState('');
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
-    const [regime, setRegime] = useState('');
-    const [employeur, setEmployeur] = useState('');
+    const [regime, setRegime] = useState(
+        [
+        {id: '0', title: 'Sélectionner'},
+        {id: 'act', title: 'Actif'},
+        {id: 'inv', title: 'Inactif / Vivant'},
+        {id: 'ind', title: 'Inactif / Décédé'},
+        {id: 'veu', title: 'Veuve'}
+        ]);
+    const [employeur, setEmployeur] = useState(' ');
     const [benef, setBenef] = useState(
         [
             {id: '0', title: 'Sélectionner'},
@@ -30,6 +37,7 @@ const FormPage = (props) => {
         ]);
     const [selection, setSelection] = useState({
         adh_mip: props.adh,
+        regime: '',
         benef: '',
         examen: '',
         type: []
@@ -47,15 +55,18 @@ const FormPage = (props) => {
         {id: 'pne', title:'Pneumologie', price_adh: 500, price_nonadh: 700},
         {id: 'tra', title:'Traumatologie', price_adh: 400, price_nonadh: 600},
         {id: 'uro', title:'Urologie', price_adh: 500, price_nonadh: 700},
+        {id: 'dia', title:'Diabetologie', price_adh: 600, price_nonadh: 800},
     ]);
     const [exi, setExi] = useState([
-        {id: 'abl', title:'Ablation', price_adh: 0, price_nonadh: 0},
-        {id: 'ech', title:'Echographie', price_adh: 0, price_nonadh: 0},
+        {id: 'abl', title:'Ablation', price_adh: 150, price_nonadh: 250},
+        {id: 'ech', title:'Echographie', price_adh: 500, price_nonadh: 700},
         {id: 'ecg', title:'E C G', price_adh: 200, price_nonadh: 350},
         {id: 'efr', title:'E F R', price_adh: 500, price_nonadh: 700},
-        {id: 'inj', title:'Injection', price_adh: 0, price_nonadh: 0},
-        {id: 'pan', title:'Pansement', price_adh: 0, price_nonadh: 0},
-        {id: 'pdt', title:'Prise de Tension', price_adh: 0, price_nonadh: 0},
+        {id: 'inj', title:'Injection', price_adh: 30, price_nonadh: 40},
+        {id: 'pan', title:'Pansement simple', price_adh: 200, price_nonadh: 300},
+        {id: 'pan', title:'Pansement infecté', price_adh: 350, price_nonadh: 500},
+        {id: 'pdt', title:'Prise de Tension', price_adh: 20, price_nonadh: 30},
+        {id: 'sut', title:'Suture', price_adh: 400, price_nonadh: 500},
         {id: 'soi', title:'Soins', price_adh: 0, price_nonadh: 0},
     ]);
     const [den, setDen] = useState([
@@ -98,10 +109,13 @@ const FormPage = (props) => {
         {id: 'asl', title:'ASLO', price_adh: 150, price_nonadh: 210},    
     ])
 
+    const [addAdh, setAddAdh] = useState(false);
+    
+    
     let ssidChangeHandler = (event) => {
         setSsid(event.target.value)
     }
-
+    
     let nomChangeHandler = (event) => {
         setNom(event.target.value)
     }
@@ -111,7 +125,11 @@ const FormPage = (props) => {
     }
 
     let regimeChangeHandler = (event) => {
-        setRegime(event.target.value)
+        event.preventDefault();
+        setSelection({
+            ...selection,
+            regime: event.target.value
+        })    
     }
 
     let employeurChangeHandler = (event) => {
@@ -272,51 +290,69 @@ const FormPage = (props) => {
             break;   
         }
 
-        let adhFetchHandler = (event) => {
+    let adhFetchHandler = (event) => {
             if ((event.code === 'Enter' || event.code === 'NumpadEnter') && ssid) {
                 axios.post('/fetchAdh', {ssid})
                     .then(res => {
+                        console.log(res);
                         if (res.data.success) {
-                            let {nom, prenom, employeur} = res.data.adh;
+                            let {nom, prenom, employeur, categorie, etat_inactif} = res.data.adh;
                             if (selection.adh_mip) {
+                                setNom(nom);
+                                setPrenom(prenom);
+                                if (etat_inactif) {
+                                    let [reg] = regime.filter(item => item.title === `${categorie} / ${etat_inactif}`);
+                                    setSelection({
+                                        ...selection,
+                                        regime: reg.id
+                                    });
+                                }
+                                else {
+                                    let [reg] = regime.filter(item => item.title === categorie);
+                                    setSelection({
+                                        ...selection,
+                                        regime: reg.id
+                                    });
+                                }
                                 if (!employeur) {
-                                    setNom(nom);
-                                    setPrenom(prenom);
                                     employeur=" "
                                 } else {
-                                    const [emp, reg1, reg2] = employeur.split('/');
-                                    setNom(nom);
-                                    setPrenom(prenom);
-                                    setRegime(reg1);
-                                    if (reg2) {
-                                        setRegime(`${reg1} / ${reg2}`);
-                                    }
-                                    setEmployeur(emp);
+                                    setEmployeur(employeur);
                                 }
                             }
                             else {
                                 alert('Numéro de Sécurité Social déja éxistant !');
                             }
                         }
+                        else {
+                            let addAdh = window.confirm('Adhérant introuvable, Voulez vous l\'ajouter ?');
+                            setAddAdh(addAdh);
+                        }
                     })
                     .catch(err => alert('ERREUR : VERIFIEZ VOS DONNEES'));
             } else if ((event.code === 'Enter' || event.code === 'NumpadEnter') && !ssid) {
                 alert('ERREUR : VERIFIEZ VOS DONNEES')
             }
-        }
+    }
         
-        let printHandler = () => {
+    let printHandler = () => {
 
             localStorage.setItem('ssid',ssid);
             localStorage.setItem('nom',nom);
             localStorage.setItem('pre',prenom);
-            localStorage.setItem('reg',regime);
             localStorage.setItem('emp',employeur);
             localStorage.setItem('mon',montant.toString());
 
             let benefTitle;
+            let regTitle;
             let examTitle;
             let specTitle;
+
+            if (selection.regime) {
+                let [reg] = regime.filter(item => item.id === selection.regime);
+                localStorage.setItem('reg',reg.title);
+                regTitle = reg.title;
+            }
 
             if (selection.benef) {
                 let [ben] = benef.filter(item => item.id === selection.benef);
@@ -346,12 +382,14 @@ const FormPage = (props) => {
                 ssid,
                 nom,
                 prenom,
-                employeur: `${employeur}/${regime}`,
+                employeur,
                 montant,
                 benefTitle,
                 examTitle,
+                categorie: regTitle,
                 specTitle,
-                date: `${year}-${month}-${day}`
+                date: `${year}-${month}-${day}`,
+                addAdh
             }
 
             if (selection.adh_mip) {
@@ -379,11 +417,11 @@ const FormPage = (props) => {
                 
 
 
-        }
+    }
 
-        let resetHandler = () => {
-            window.location.reload();
-        }
+    let resetHandler = () => {
+        window.location.reload();
+    }
         
     return (
         <div className={classes.FormPage}>
@@ -395,28 +433,30 @@ const FormPage = (props) => {
                 <form>
                     <div className={classes.FormInput}>
                         <label htmlFor="">N°SS</label>
-                        <input onChange={ssidChangeHandler} pattern="\d*" onKeyDown={adhFetchHandler} type="number" placeholder="Saisissez les données" value={ssid}/>
+                        <input onChange={ssidChangeHandler} pattern="\d*" onKeyDown={adhFetchHandler} type="number" placeholder="" value={ssid}/>
                     </div>
                     
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Nom</label>
-                            <input onChange={nomChangeHandler} type="text" placeholder="Saisissez les données" value={nom} className={props.adh ? classes.DisabledInput : ''}/>
+                            <input onChange={nomChangeHandler} type="text" placeholder="" value={nom} disabled={props.adh&&!addAdh}/>
                         </div>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Prénom</label>
-                            <input onChange={prenomChangeHandler} type="text" placeholder="Saisissez les données" value={prenom} className={props.adh ? classes.DisabledInput : ''}/>
+                            <input onChange={prenomChangeHandler} type="text" placeholder="" value={prenom} disabled={props.adh&&!addAdh}/>
                         </div>
                     </div>
                     
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Régime</label>
-                            <input onChange={regimeChangeHandler} type="text" placeholder="Saisissez les données" value={regime} className={props.adh ? classes.DisabledInput : ''}/>
+                            <select onChange={regimeChangeHandler} value={selection.regime} disabled={props.adh&&!addAdh}>
+                                {regime.map((item) => (<option key={item.id} value={item.id}>{item.title}</option>))}
+                            </select>
                         </div>
                         <div className={classes.FormInput}>
                             <label htmlFor="">Employeur</label>
-                            <input onChange={employeurChangeHandler} type="text" placeholder="Saisissez les données" value={employeur} className={props.adh ? classes.DisabledInput : ''}/>
+                            <input onChange={employeurChangeHandler} type="text" placeholder="" value={employeur} disabled={props.adh&&!addAdh}/>
                         </div>
                     </div>
 

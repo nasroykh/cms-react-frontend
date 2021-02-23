@@ -1,23 +1,29 @@
 .MainHeader {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     letter-spacing: 0.1em;
     margin-bottom: auto;
 }
 
 .TopLeftHeader {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    column-gap: 8em;
+    align-items: center;
     background-color: #3A4750;
     color: #F3F3F3;
-    padding: 3em 7em;
-    text-align: end;
-    border-radius: 0 0 5px 0;
+    border-radius: 0 0 150px 0;
+    padding: 2em 4em;
     padding-left: 5vw;
 }
 
-.TopRightHeader {
-    color: #3A4750;
-    padding-right: 5vw;
+.TopLeftHeader img {
+    width: 120%;
 }
+
+.TopLeftHeader div {
+    line-height: 2;
+}
+
 
 
