@@ -13,10 +13,6 @@
     text-decoration: none;
 }
 
-.BackBtn input {
-    outline: none;
-}
-
 .BackBtn > * {
     padding: 1.5em 2em;
 }

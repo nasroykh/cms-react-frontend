@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 const BackBtn = () => {
     return (
         <NavLink to={"/"} className={classes.BackBtn}>
-            <input type="image" src={back} alt=""/>
+            <input type="image" src={back} alt="" disabled/>
             <span>
                 Retour
             </span> 

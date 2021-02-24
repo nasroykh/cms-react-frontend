@@ -3,9 +3,9 @@ import classes from './SmallBtn.module.css';
 
 const SmallBtn = (props) => {
     return (
-        <div onClick={props.click} className={classes.SmallBtn}>
+        <button onClick={props.click} className={classes.SmallBtn}>
             {props.children}
-        </div>
+        </button>
     )
 }
 

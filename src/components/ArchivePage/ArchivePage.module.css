@@ -1,22 +1,47 @@
 .ArchivePage {
     margin: 0 1em;
-    margin-top: 2em;
+    margin-top: 1em;
     text-align: center;
+    overflow: auto;
 }
 
 .Buttons {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 1fr 3fr 3fr 2fr;
     justify-items: center;
 }
 
 .Buttons > div {
     display: flex;
+    justify-content: space-between;
 }
 
-.Buttons input {
+
+.Buttons button {
+    padding: 0 1em;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.DateFilter button {
+    border: none;
+    align-self: center;
+    background: none;
+    padding: 0;
+    margin-left: .5em;
+}
+
+.DateFilter img {
+    width: 2em;
+}
+
+.DateFilter input {
     color: #3A4750;
     font-weight: 700;
+}
+
+.DateFilter input:last-of-type {
+    margin-left: 1em;
 }
 
 .TableWrapper {

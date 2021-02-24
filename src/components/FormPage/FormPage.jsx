@@ -115,6 +115,13 @@ const FormPage = (props) => {
     let ssidChangeHandler = (event) => {
         setSsid(event.target.value)
     }
+
+    let generateSsidHandler = (event) => {
+        event.preventDefault();
+        if (!selection.adh_mip) {
+            setSsid(new Date().getTime());
+        }
+    }
     
     let nomChangeHandler = (event) => {
         setNom(event.target.value)
@@ -291,6 +298,7 @@ const FormPage = (props) => {
         }
 
     let adhFetchHandler = (event) => {
+        if (selection.adh_mip) {
             if ((event.code === 'Enter' || event.code === 'NumpadEnter') && ssid) {
                 axios.post('/fetchAdh', {ssid})
                     .then(res => {
@@ -333,10 +341,13 @@ const FormPage = (props) => {
             } else if ((event.code === 'Enter' || event.code === 'NumpadEnter') && !ssid) {
                 alert('ERREUR : VERIFIEZ VOS DONNEES')
             }
+        }
     }
         
-    let printHandler = () => {
+    let printHandler = (event) => {
+            event.preventDefault();
 
+            
             localStorage.setItem('ssid',ssid);
             localStorage.setItem('nom',nom);
             localStorage.setItem('pre',prenom);
@@ -419,7 +430,8 @@ const FormPage = (props) => {
 
     }
 
-    let resetHandler = () => {
+    let resetHandler = (event) => {
+        event.preventDefault();
         window.location.reload();
     }
         
@@ -431,9 +443,12 @@ const FormPage = (props) => {
             </div>
             <div className={classes.Form}>
                 <form>
-                    <div className={classes.FormInput}>
-                        <label htmlFor="">N°SS</label>
-                        <input onChange={ssidChangeHandler} pattern="\d*" onKeyDown={adhFetchHandler} type="number" placeholder="" value={ssid}/>
+                    <div className={classes.FormGroup}>
+                        <div className={classes.FormInput}>
+                            <label htmlFor="">N°SS</label>
+                            <input onChange={ssidChangeHandler} pattern="\d*" onKeyDown={adhFetchHandler} type="number" placeholder="" value={ssid}/>
+                        </div>
+                        {selection.adh_mip ? null : <SmallBtn click={generateSsidHandler}>Générer</SmallBtn>}
                     </div>
                     
                     <div className={classes.FormGroup}>
@@ -477,7 +492,7 @@ const FormPage = (props) => {
 
                     <div className={classes.FormInput}>
                         <label htmlFor="">Montant Total</label>
-                        <input type="text" name="" id="" value={`${montant},00 DA`} className={classes.SumInput}/>
+                        <input type="text" name="" id="" disabled value={`${montant},00 DA`} className={classes.SumInput}/>
                     </div>
 
                 </form>

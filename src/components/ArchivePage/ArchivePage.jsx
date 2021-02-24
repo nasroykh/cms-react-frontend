@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import SmallBtn from '../../elements/SmallBtn/SmallBtn';
 import BackBtn from '../../elements/BackBtn/BackBtn';
 import classes from './ArchivePage.module.css';
+import reset from '../../assets/reset.png';
 
 class ArchivePage extends Component {
 
@@ -14,7 +15,7 @@ class ArchivePage extends Component {
     }
 
     componentDidMount() {
-        axios.get('/fetchPatients/all/null/null')
+        axios.get('/fetchPatients/all/null/null/false')
         .then(res => {
             this.setState({
                 ...this.state,
@@ -28,7 +29,7 @@ class ArchivePage extends Component {
 
     switchAdhHandler = () => {
         this.setState({...this.state, type: 'adh'})
-        axios.get(`/fetchPatients/adh/${this.state.min_date}/${this.state.max_date}`)
+        axios.get(`/fetchPatients/adh/${this.state.min_date}/${this.state.max_date}/false`)
         .then(res => {
             this.setState({
                 ...this.state,
@@ -42,7 +43,7 @@ class ArchivePage extends Component {
 
     switchNonAdhHandler = () => {
         this.setState({...this.state, type: 'non_adh'})
-        axios.get(`/fetchPatients/non_adh/${this.state.min_date}/${this.state.max_date}`)
+        axios.get(`/fetchPatients/non_adh/${this.state.min_date}/${this.state.max_date}/false`)
         .then(res => {
             this.setState({
                 ...this.state,
@@ -56,7 +57,7 @@ class ArchivePage extends Component {
 
     switchAllHandler = () => {
         this.setState({...this.state, type: 'all'})
-        axios.get(`/fetchPatients/all/${this.state.min_date}/${this.state.max_date}`)
+        axios.get(`/fetchPatients/all/${this.state.min_date}/${this.state.max_date}/false`)
         .then(res => {
             this.setState({
                 ...this.state,
@@ -79,7 +80,7 @@ class ArchivePage extends Component {
                 ...this.state,
                 min_date: min_date
             });
-            axios.get(`/fetchPatients/${this.state.type}/${min_date}/${this.state.max_date}`)
+            axios.get(`/fetchPatients/${this.state.type}/${min_date}/${this.state.max_date}/false`)
             .then(res => {
                 this.setState({
                     ...this.state,
@@ -96,7 +97,7 @@ class ArchivePage extends Component {
                 ...this.state,
                 max_date: max_date
             });
-            axios.get(`/fetchPatients/${this.state.type}/${this.state.min_date}/${max_date}`)
+            axios.get(`/fetchPatients/${this.state.type}/${this.state.min_date}/${max_date}/false`)
             .then(res => {
                 this.setState({
                     ...this.state,
@@ -109,6 +110,52 @@ class ArchivePage extends Component {
         }
     };
 
+    dateResetHandler = (e) => {
+        if (e.currentTarget.id === 'min_reset') {
+            this.setState({
+                ...this.state,
+                min_date: 'null'
+            });
+            axios.get(`/fetchPatients/${this.state.type}/null/${this.state.max_date}/false`)
+            .then(res => {
+                this.setState({
+                    ...this.state,
+                    patients: res.data,
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            }); 
+        }
+
+        else {
+            this.setState({
+                ...this.state,
+                max_date: 'null'
+            });
+            axios.get(`/fetchPatients/${this.state.type}/${this.state.min_date}/null/false`)
+            .then(res => {
+                this.setState({
+                    ...this.state,
+                    patients: res.data,
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            }); 
+        }
+    }
+
+    exportHandler = () => {
+        axios.get(`/fetchPatients/${this.state.type}/${this.state.min_date}/null/true`)
+        .then(res => {
+            alert('Exported');
+        })
+        .catch(err => {
+            console.log(err)
+        }); 
+    }
+
     render() {
 
         let list;
@@ -118,7 +165,7 @@ class ArchivePage extends Component {
                 case 'adh':
                     list = this.state.patients.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.id}</td>
+                            <td>{item.bon}</td>
                             <td>{item.ssid}</td>
                             <td>{item.nom}</td>
                             <td>{item.prenom}</td>
@@ -135,7 +182,7 @@ class ArchivePage extends Component {
                 case 'non_adh':
                     list = this.state.patients.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.id}</td>
+                            <td>{item.bon}</td>
                             <td>{item.ssid}</td>
                             <td>{item.nom}</td>
                             <td>{item.prenom}</td>
@@ -152,7 +199,7 @@ class ArchivePage extends Component {
                 case 'all':
                     list = this.state.patients.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.id}</td>
+                            <td>{item.bon}</td>
                             <td>{item.adh_ssid || item.non_ssid}</td>
                             <td>{item.adh_nom || item.non_nom}</td>
                             <td>{item.adh_prenom || item.non_prenom}</td>
@@ -184,9 +231,16 @@ class ArchivePage extends Component {
                         <SmallBtn click={this.switchNonAdhHandler}>Non Adhérents</SmallBtn>
                         <SmallBtn click={this.switchAllHandler}>Tous</SmallBtn>
                     </div>
-                    <input type="date" id="min" onChange={this.dateHandler} />
-                    <input type="date" id="max" onChange={this.dateHandler} />
-                    <SmallBtn click={this.resetHandler}>Réinitialiser</SmallBtn>
+                    <div className={classes.DateFilter}>
+                        <input type="date" id="min" onChange={this.dateHandler} value={this.state.min_date} />
+                        <button onClick={this.dateResetHandler} id="min_reset"><img src={reset} alt="" srcset=""/></button>
+                        <input type="date" id="max" onChange={this.dateHandler} value={this.state.max_date}/>
+                        <button onClick={this.dateResetHandler} id="max_reset"><img src={reset} alt="" srcset=""/></button>
+                    </div>
+                    <div>
+                        <SmallBtn click={this.resetHandler}>Réinitialiser</SmallBtn>
+                        <SmallBtn click={this.exportHandler}>Exporter</SmallBtn>
+                    </div>
                 </div>
                 <div className={classes.TableWrapper}>
                     <table>
