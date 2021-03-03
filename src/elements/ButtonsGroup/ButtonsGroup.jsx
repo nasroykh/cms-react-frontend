@@ -11,7 +11,7 @@ const ButtonsGroup = (props) => {
             </NavLink>
             <span></span>
             <NavLink to="/non_adh">
-                Non-Adhérents MIP
+                Non-Adhérents
             </NavLink>
             <span></span>
             <NavLink to="/archives" >

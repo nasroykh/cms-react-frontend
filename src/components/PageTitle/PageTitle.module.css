@@ -3,3 +3,7 @@
     flex-flow: column;
     color: #3A4750;
 }
+
+.PageTitle h1 {
+    font-size: 2.25rem;
+}

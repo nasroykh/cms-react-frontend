@@ -1,19 +1,26 @@
 .PrintPage {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     height: 100%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.1rem;
+    background-color: white;
 }
 
 .bon1 {
+    margin: 2em 0;
     border: 1px dashed black;
-    padding: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 40%;
-    margin: 0 1em;
+    justify-content: center;
+    width: 45%;
+    padding: 1em;
+}
+
+.Separator {
+    width: 0.1px;
+    border-right: 3px dashed black;
 }
 
 .titre1 , .titre2 {

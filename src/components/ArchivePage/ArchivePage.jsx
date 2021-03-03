@@ -4,18 +4,30 @@ import SmallBtn from '../../elements/SmallBtn/SmallBtn';
 import BackBtn from '../../elements/BackBtn/BackBtn';
 import classes from './ArchivePage.module.css';
 import reset from '../../assets/reset.png';
+import close from '../../assets/close.svg';
+import chevron from '../../assets/chevron.svg';
 
 class ArchivePage extends Component {
 
     state = {
         patients: [],
         type: 'all',
-        min_date: 'null',
-        max_date: 'null',
+        min_date: '',
+        max_date: '',
+        filtres: false,
+        order: '',
+        ascOrder: ''
     }
 
     componentDidMount() {
-        axios.get('/fetchPatients/all/null/null/false')
+        axios.get(`/fetchPatients`, { params: {
+            type: 'all',
+            min_date: '',
+            max_date: '',
+            export: false,
+            order: this.state.order,
+            ascOrder: this.state.ascOrder
+        }})
         .then(res => {
             this.setState({
                 ...this.state,
@@ -29,7 +41,14 @@ class ArchivePage extends Component {
 
     switchAdhHandler = () => {
         this.setState({...this.state, type: 'adh'})
-        axios.get(`/fetchPatients/adh/${this.state.min_date}/${this.state.max_date}/false`)
+        axios.get(`/fetchPatients`, { params: {
+            type: 'adh',
+            min_date: this.state.min_date,
+            max_date: this.state.max_date,
+            export: false,
+            order: this.state.order,
+            ascOrder: this.state.ascOrder
+        }})
         .then(res => {
             this.setState({
                 ...this.state,
@@ -43,7 +62,14 @@ class ArchivePage extends Component {
 
     switchNonAdhHandler = () => {
         this.setState({...this.state, type: 'non_adh'})
-        axios.get(`/fetchPatients/non_adh/${this.state.min_date}/${this.state.max_date}/false`)
+        axios.get(`/fetchPatients`, { params: {
+            type: 'non_adh',
+            min_date: this.state.min_date,
+            max_date: this.state.max_date,
+            export: false,
+            order: this.state.order,
+            ascOrder: this.state.ascOrder
+        }})
         .then(res => {
             this.setState({
                 ...this.state,
@@ -57,7 +83,14 @@ class ArchivePage extends Component {
 
     switchAllHandler = () => {
         this.setState({...this.state, type: 'all'})
-        axios.get(`/fetchPatients/all/${this.state.min_date}/${this.state.max_date}/false`)
+        axios.get(`/fetchPatients`, { params: {
+            type: 'all',
+            min_date: this.state.min_date,
+            max_date: this.state.max_date,
+            export: false,
+            order: this.state.order,
+            ascOrder: this.state.ascOrder
+        }})
         .then(res => {
             this.setState({
                 ...this.state,
@@ -80,7 +113,14 @@ class ArchivePage extends Component {
                 ...this.state,
                 min_date: min_date
             });
-            axios.get(`/fetchPatients/${this.state.type}/${min_date}/${this.state.max_date}/false`)
+        axios.get(`/fetchPatients`, { params: {
+            type: this.state.type,
+            min_date: min_date,
+            max_date: this.state.max_date,
+            export: false,
+            order: this.state.order,
+            ascOrder: this.state.ascOrder
+        }})
             .then(res => {
                 this.setState({
                     ...this.state,
@@ -97,7 +137,14 @@ class ArchivePage extends Component {
                 ...this.state,
                 max_date: max_date
             });
-            axios.get(`/fetchPatients/${this.state.type}/${this.state.min_date}/${max_date}/false`)
+            axios.get(`/fetchPatients`, { params: {
+                type: this.state.type,
+                min_date: this.state.min_date,
+                max_date: max_date,
+                export: false,
+                order: this.state.order,
+                ascOrder: this.state.ascOrder
+            }})
             .then(res => {
                 this.setState({
                     ...this.state,
@@ -114,9 +161,16 @@ class ArchivePage extends Component {
         if (e.currentTarget.id === 'min_reset') {
             this.setState({
                 ...this.state,
-                min_date: 'null'
+                min_date: ''
             });
-            axios.get(`/fetchPatients/${this.state.type}/null/${this.state.max_date}/false`)
+            axios.get(`/fetchPatients`, { params: {
+                type: this.state.type,
+                min_date: '',
+                max_date: this.state.max_date,
+                export: false,
+                order: this.state.order,
+                ascOrder: this.state.ascOrder
+            }})
             .then(res => {
                 this.setState({
                     ...this.state,
@@ -131,9 +185,16 @@ class ArchivePage extends Component {
         else {
             this.setState({
                 ...this.state,
-                max_date: 'null'
+                max_date: ''
             });
-            axios.get(`/fetchPatients/${this.state.type}/${this.state.min_date}/null/false`)
+            axios.get(`/fetchPatients`, { params: {
+                type: this.state.type,
+                min_date: this.state.min_date,
+                max_date: '',
+                export: false,
+                order: this.state.order,
+                ascOrder: this.state.ascOrder
+            }})
             .then(res => {
                 this.setState({
                     ...this.state,
@@ -147,13 +208,50 @@ class ArchivePage extends Component {
     }
 
     exportHandler = () => {
-        axios.get(`/fetchPatients/${this.state.type}/${this.state.min_date}/null/true`)
+        axios.get(`/fetchPatients`, { params: {
+            type: this.state.type,
+            min_date: this.state.min_date,
+            max_date: this.state.max_date,
+            export: true,
+            order: this.state.order,
+            ascOrder: this.state.ascOrder
+        }})
         .then(res => {
-            alert('Exported');
+            alert('Tableau exporté, ouverture du dossier contenant le fichier ...');
         })
         .catch(err => {
             console.log(err)
         }); 
+    }
+
+    orderHandler = (e) => {
+        let orderBy = e.currentTarget.id;
+        axios.get(`/fetchPatients`, { params: {
+            type: this.state.type,
+            min_date: this.state.min_date,
+            max_date: this.state.max_date,
+            export: false,
+            order: orderBy,
+            ascOrder: !this.state.ascOrder || false
+        }})
+        .then(res => {
+            this.setState({
+                ...this.state,
+                patients: res.data,
+                order: orderBy,
+                ascOrder: !this.state.ascOrder
+            });
+        })
+        .catch(err => {
+            console.log(err)
+        }); 
+    }
+
+    filtresToggleHandler = () => {
+        let oldState = {...this.state.filtres};
+        oldState = !this.state.filtres;
+        this.setState({...this.state, filtres: oldState});
+        console.log('hey');
     }
 
     render() {
@@ -224,38 +322,73 @@ class ArchivePage extends Component {
 
         return (
             <div className={classes.ArchivePage}>
-                <div className={classes.Buttons}>
+                <div onClick={this.filtresToggleHandler} className={`${classes.BackDrop} ${this.state.filtres ? classes.ShowBD : ''}`}></div>
+                <div 
+                className={`${classes.Buttons} ${this.state.filtres ? classes.ButtonsCollapse : ''}`}>
                     <BackBtn/>
-                    <div>
-                        <SmallBtn click={this.switchAdhHandler}>Adhérents M.I.P</SmallBtn>
-                        <SmallBtn click={this.switchNonAdhHandler}>Non Adhérents</SmallBtn>
-                        <SmallBtn click={this.switchAllHandler}>Tous</SmallBtn>
+                    <SmallBtn click={this.exportHandler}>Exporter</SmallBtn>
+                    <SmallBtn click={this.resetHandler}>Réinitialiser Filtres</SmallBtn>
+                    <SmallBtn click={this.filtresToggleHandler}>Filtres</SmallBtn>
+                </div>
+                <div 
+                className={`${classes.SideDrawer} ${this.state.filtres ? classes.Show : null}`}>
+                    <button onClick={this.filtresToggleHandler} className={classes.CloseBtn}>
+                        <img src={close} alt=""/>
+                    </button>
+                    <div className={classes.ParType}>
+                        <label htmlFor="">Par type de patient</label>
+                        <SmallBtn click={this.switchAllHandler} isActive={this.state.type==='all' ? true : false}>Tous</SmallBtn>
+                        <SmallBtn click={this.switchAdhHandler} isActive={this.state.type==='adh' ? true : false}>Adhérents M.I.P</SmallBtn>
+                        <SmallBtn click={this.switchNonAdhHandler} isActive={this.state.type==='non_adh' ? true : false}>Non Adhérents</SmallBtn>
                     </div>
                     <div className={classes.DateFilter}>
-                        <input type="date" id="min" onChange={this.dateHandler} value={this.state.min_date} />
-                        <button onClick={this.dateResetHandler} id="min_reset"><img src={reset} alt="" srcset=""/></button>
-                        <input type="date" id="max" onChange={this.dateHandler} value={this.state.max_date}/>
-                        <button onClick={this.dateResetHandler} id="max_reset"><img src={reset} alt="" srcset=""/></button>
-                    </div>
-                    <div>
-                        <SmallBtn click={this.resetHandler}>Réinitialiser</SmallBtn>
-                        <SmallBtn click={this.exportHandler}>Exporter</SmallBtn>
+                        <label htmlFor="">Par Date</label>
+                        <div>
+                            <label htmlFor="">Date de début</label>
+                            <input type="date" id="min" onChange={this.dateHandler} value={this.state.min_date} />
+                            <button onClick={this.dateResetHandler} id="min_reset"><img src={reset} alt="" srcset=""/></button>
+                        </div>
+                        <div>
+                            <label htmlFor="">Date de fin</label>
+                            <input type="date" id="max" onChange={this.dateHandler} value={this.state.max_date}/>
+                            <button onClick={this.dateResetHandler} id="max_reset"><img src={reset} alt="" srcset=""/></button>
+                        </div>
                     </div>
                 </div>
                 <div className={classes.TableWrapper}>
                     <table>
                         <thead>
                             <tr>
-                                <th>BON</th>
-                                <th>N° SS</th>
-                                <th>NOM</th>
-                                <th>PRENOM</th>
-                                <th>EMPLOYEUR</th>
-                                <th>BENEFICIAIRE</th>
-                                <th>EXAMEN MEDICAL</th>
-                                <th>SPECIALITE</th>
-                                <th>DATE</th>
-                                <th>MONTANT</th>
+                                <th id="id" onClick={this.orderHandler}>
+                                    BON {this.state.order==='id' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="ssid" onClick={this.orderHandler}>
+                                    N° SS {this.state.order==='ssid' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="nom" onClick={this.orderHandler}>
+                                    NOM {this.state.order==='nom' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="prenom" onClick={this.orderHandler}>
+                                    PRENOM {this.state.order==='prenom' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="employeur" onClick={this.orderHandler}>
+                                    EMPLOYEUR {this.state.order==='employeur' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="beneficiaire" onClick={this.orderHandler}>
+                                    BENEFICIAIRE {this.state.order==='beneficiaire' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="examenmedical" onClick={this.orderHandler}>
+                                    EXAMEN MEDICAL {this.state.order==='examenmedical' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="spec" onClick={this.orderHandler}>
+                                    SPECIALITE {this.state.order==='spec' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="date" onClick={this.orderHandler}>
+                                    DATE {this.state.order==='date' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
+                                <th id="montant" onClick={this.orderHandler}>
+                                    MONTANT {this.state.order==='montant' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    </th>
                             </tr>
                         </thead>
                         <tbody>

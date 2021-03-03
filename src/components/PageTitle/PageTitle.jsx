@@ -4,8 +4,7 @@ import classes from './PageTitle.module.css';
 const PageTitle = (props) => {
     return (
         <div className={classes.PageTitle}>
-            <h1>{props.adh ? 'Adhérents M.I.P' : 'Non-Adhérents M.I.P'}</h1>
-            <div className={classes.TitleLine}></div>
+            <h1>{props.adh ? 'Adhérents M.I.P' : 'Non-Adhérents'}</h1>
         </div>
     )
 }

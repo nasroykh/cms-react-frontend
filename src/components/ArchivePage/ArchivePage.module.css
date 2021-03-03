@@ -6,29 +6,109 @@
 }
 
 .Buttons {
-    display: grid;
-    grid-template-columns: 1fr 3fr 3fr 2fr;
-    justify-items: center;
-}
-
-.Buttons > div {
     display: flex;
     justify-content: space-between;
+    margin: 0 1em;
+}
+
+.Buttons > button:nth-child(2) {
+    margin-left: auto;
+}
+
+.BackDrop {
+    cursor: pointer;
+    display: none;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(48, 56, 65, 0.6);
+}
+
+.ShowBD {
+    display: block;
+}
+
+.SideDrawer {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    width: 40vw;
+    transform: translateX(100%);
+    transition: 500ms ease-in-out;
+    transition-property: opacity, transform;
+    height: 100%;
+    background-color: #F3F3F3; 
+    border-left: 50px #3A4750 solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #3A4750;
+    padding: 5em 0;
+    opacity: 0;
+}
+
+.Show {
+    transform: translateX(0%);
+    opacity: 1;
+}
+
+.CloseBtn {
+    position: absolute;
+    right: 1.5em;
+    top: 1.5em;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.CloseBtn img {
+    width: 2.5em;
+}
+
+.ParType, .DateFilter {
+    margin-bottom: 5em;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.ParType label, .DateFilter > label {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1em;
+}
+
+.ParType button{
+    justify-content: center;
+    margin-bottom: 0.75em;
 }
 
 
-.Buttons button {
-    padding: 0 1em;
+
+.DateFilter {
+    align-self: stretch;
+}
+
+.DateFilter > div {
+    position: relative;
+    display: flex;
     justify-content: center;
-    cursor: pointer;
+    margin-bottom: 2em;
+    height: 4em;
 }
 
 .DateFilter button {
     border: none;
     align-self: center;
     background: none;
-    padding: 0;
     margin-left: .5em;
+    cursor: pointer;
 }
 
 .DateFilter img {
@@ -38,15 +118,27 @@
 .DateFilter input {
     color: #3A4750;
     font-weight: 700;
+    padding: 0 1em;
+    border: 2px solid #3A4750;
+    border-radius: 10px;
 }
 
 .DateFilter input:last-of-type {
     margin-left: 1em;
 }
 
+.DateFilter > div label {
+    font-weight: 700;
+    width: 25%;
+    text-align: left;
+    align-self: center;
+}
+
 .TableWrapper {
+    border: #303841 3px solid;
+    border-radius: 5px;
     overflow: auto;
-    height: 77.5vh;
+    height: 78vh;
     margin: 2em 0;
 }
 
@@ -61,12 +153,39 @@
 
 .ArchivePage td:last-child {
     border-right: none;
+    text-align: left;
+    padding: 0 .25em;
 }
 
 .ArchivePage th  {
     border-top: none;
     background-color: #3A4750;
     color: white;
+    position: relative;
+}
+
+.ArchivePage th:focus,
+.ArchivePage th:hover {
+    background-color: #303841;
+    cursor: pointer;
+}
+
+.ArchivePage th span {
+    position: absolute;
+    width: 1.125em;
+    right: .1em;
+    bottom: .1em;
+    background-color: #F3F3F3;
+    border-radius: 100em;
+}
+
+.ReverseOrder {
+    transform: rotate(180deg);
+}
+
+.ArchivePage span img {
+    max-width: 100%;
+    display: block;
 }
 
 .ArchivePage th:last-child {
@@ -75,4 +194,8 @@
 
 .ArchivePage tbody tr:nth-child(even) {
     background-color: rgba(58, 71, 80, 0.05);
+}
+
+@media print {
+    
 }

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {withRouter} from 'react-router';
 import BackBtn from '../../elements/BackBtn/BackBtn';
 import SmallBtn from '../../elements/SmallBtn/SmallBtn';
 import PageTitle from '../PageTitle/PageTitle';
@@ -7,18 +8,18 @@ import axios from 'axios';
 
 const FormPage = (props) => {
 
+    let regimeAdh = [        
+        {id: '0', title: 'Sélectionner'},
+        {id: 'act', title: 'Actif'},
+        {id: 'ina', title: 'Inactif'},
+        {id: 'veu', title: 'Veuve'}
+    ];
+
+
     const [ssid, setSsid] = useState('');
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
-    const [regime, setRegime] = useState(
-        [
-        {id: '0', title: 'Sélectionner'},
-        {id: 'act', title: 'Actif'},
-        {id: 'inv', title: 'Inactif / Vivant'},
-        {id: 'ind', title: 'Inactif / Décédé'},
-        {id: 'veu', title: 'Veuve'}
-        ]);
-    const [employeur, setEmployeur] = useState(' ');
+    const [employeur, setEmployeur] = useState('');
     const [benef, setBenef] = useState(
         [
             {id: '0', title: 'Sélectionner'},
@@ -26,7 +27,7 @@ const FormPage = (props) => {
             {id: 'cjt', title: 'Conjoint'},
             {id: 'enf', title: 'Enfant'}
         ]);
-    const [examen, setExamen] = useState(
+        const [examen, setExamen] = useState(
         [
             {id: '0', title: 'Sélectionner'},
             {id: 'anl', title:'Analyses'},
@@ -42,6 +43,15 @@ const FormPage = (props) => {
         examen: '',
         type: []
     });
+    
+    if (!selection.adh_mip) {
+        regimeAdh = [        
+            {id: '0', title: 'Sélectionner'},
+            {id: 'pub', title: 'Public'},
+            {id: 'cnv', title: 'Convention'},
+        ];
+    }
+    const [regime, setRegime] = useState(regimeAdh);
     const [montant, setMontant] = useState(0);
     const [spec, setSpec] = useState([
         {id: 'end', title:'Endocrinologie', price_adh: 600, price_nonadh: 800},
@@ -51,6 +61,7 @@ const FormPage = (props) => {
         {id: 'neu', title:'Neurologie', price_adh: 400, price_nonadh: 600},
         {id: 'orl', title:'O.R.L', price_adh: 400, price_nonadh: 600},
         {id: 'oph', title:'Ophtalmologie', price_adh: 600, price_nonadh: 800},
+        {id: 'car', title:'Cardiologie', price_adh: 600, price_nonadh: 800},
         {id: 'ped', title:'Pédiatre', price_adh: 400, price_nonadh: 600},
         {id: 'pne', title:'Pneumologie', price_adh: 500, price_nonadh: 700},
         {id: 'tra', title:'Traumatologie', price_adh: 400, price_nonadh: 600},
@@ -63,11 +74,10 @@ const FormPage = (props) => {
         {id: 'ecg', title:'E C G', price_adh: 200, price_nonadh: 350},
         {id: 'efr', title:'E F R', price_adh: 500, price_nonadh: 700},
         {id: 'inj', title:'Injection', price_adh: 30, price_nonadh: 40},
-        {id: 'pan', title:'Pansement simple', price_adh: 200, price_nonadh: 300},
-        {id: 'pan', title:'Pansement infecté', price_adh: 350, price_nonadh: 500},
+        {id: 'pas', title:'Pansement simple', price_adh: 200, price_nonadh: 300},
+        {id: 'pai', title:'Pansement infecté', price_adh: 350, price_nonadh: 500},
         {id: 'pdt', title:'Prise de Tension', price_adh: 20, price_nonadh: 30},
         {id: 'sut', title:'Suture', price_adh: 400, price_nonadh: 500},
-        {id: 'soi', title:'Soins', price_adh: 0, price_nonadh: 0},
     ]);
     const [den, setDen] = useState([
         {id: 'con', title:'Consultation', price_adh: 200, price_nonadh: 400},
@@ -76,38 +86,6 @@ const FormPage = (props) => {
         {id: 'luv', title:'Lampe UV', price_adh: 500, price_nonadh: 1000},
         {id: 'sde', title:'Soins dentaire', price_adh: 400, price_nonadh: 800},
     ]);
-    const [anl, setAnl] = useState([
-        {id: 'fns', title:'FORMULE NUMIRIQUE SANGUINE (FNS)', price_adh: 240, price_nonadh: 340},
-        {id: 'vds', title:'VITESSE DE SEDIMENTATION  (VS)', price_adh: 60, price_nonadh: 90},
-        {id: 'grp', title:'GROUPAGE', price_adh: 180, price_nonadh: 210},
-        {id: 'gaj', title:'GLYCEMIE A JEU ', price_adh: 60, price_nonadh: 90},
-        {id: 'gpp', title:'GLYCEMIE POSTE-PRANDIALE', price_adh: 60, price_nonadh: 90},
-        {id: 'ure', title:'UREE ', price_adh: 60, price_nonadh: 90},
-        {id: 'hgl', title:'HEMOGLOBINE GLYCOLYSEE', price_adh: 520, price_nonadh: 0},
-        {id: 'cre', title:'CREATININE ', price_adh: 60, price_nonadh: 90},    
-        {id: 'cho', title:'CHOLESTEROL', price_adh: 60, price_nonadh: 60},    
-        {id: 'hdc', title:'HDL CHOLESTEROL', price_adh: 40, price_nonadh: 60},    
-        {id: 'trg', title:'TRIGLYCERIDE', price_adh: 90, price_nonadh: 130},    
-        {id: 'tgo', title:'TGO', price_adh: 120, price_nonadh: 170},    
-        {id: 'tgp', title:'TGP', price_adh: 120, price_nonadh: 170},    
-        {id: 'bdc', title:'BILIRUBINE DIRECT/CONJUGUE', price_adh: 60, price_nonadh: 90},    
-        {id: 'bic', title:'BILIRUBINE INDIRECTE/NON CONJUGUE', price_adh: 60, price_nonadh: 90},    
-        {id: 'aur', title:'ACIDE URIQUE ', price_adh: 60, price_nonadh: 90},    
-        {id: 'pha', title:'PHOSPHATASE ALCALINE', price_adh: 150, price_nonadh: 210},    
-        {id: 'cal', title:'CALICIUM', price_adh: 60, price_nonadh: 90},    
-        {id: 'pho', title:'PHOSPHORE', price_adh: 60, price_nonadh: 90},    
-        {id: 'tdp', title:'TAUX DE PROTHTROMBINE (TP)', price_adh: 120, price_nonadh: 0},    
-        {id: 'cdu', title:'CHIMIE DES URINES', price_adh: 60, price_nonadh: 90},    
-        {id: 'lat', title:'LATEX', price_adh: 150, price_nonadh: 210},    
-        {id: 'waa', title:'WAALER', price_adh: 150, price_nonadh: 210},    
-        {id: 'hbs', title:'ANTIGENE HBS HEPATITE B', price_adh: 600, price_nonadh: 860},    
-        {id: 'hiv', title:'ANTIGENE HIV HEPATITE', price_adh: 600, price_nonadh: 860},    
-        {id: 'hcv', title:'ANTIGENE HCV HEPATITE C', price_adh: 600, price_nonadh: 860},    
-        {id: 'tox', title:'TOXOPLASMOSE igG', price_adh: 700, price_nonadh: 980},    
-        {id: 'rub', title:'RUBEOLE igm', price_adh: 700, price_nonadh: 980},    
-        {id: 'crp', title:'CRP', price_adh: 150, price_nonadh: 210},    
-        {id: 'asl', title:'ASLO', price_adh: 150, price_nonadh: 210},    
-    ])
 
     const [addAdh, setAddAdh] = useState(false);
     
@@ -169,6 +147,27 @@ const FormPage = (props) => {
         }
     }
 
+    let montantFormatHandler = (num) => {
+        let oldMontant = num;
+        let arr = oldMontant.toString().split('');
+        if (arr.length >= 4) {
+            switch (arr.length) {
+                case 4:
+                    arr.splice(1,0,' ');
+                break;
+
+                case 5:
+                    arr.splice(2,0,' ');
+                break;
+
+                default:
+                    break;
+            }
+        }
+        let newNum = `${arr.join('')},00 DA`;
+        return newNum;
+    }
+
     let checkBoxHandler = (item, event) => {
         let selectedType = selection.type;
         if (event.target.checked) {
@@ -181,10 +180,36 @@ const FormPage = (props) => {
             let sum = montant;
 
             if (selection.adh_mip) {
-                setMontant(sum+=item.price_adh);
+                if (item.price_adh === 0) {
+                    let newPrice = window.prompt('Prix non disponible, Veuillez le saisir');
+                    let oldAn = [...props.anl];
+                    for (let i = 0; i<oldAn.length; i++) {
+                        if (oldAn[i].id === item.id) {
+                            oldAn[i].price_adh = parseInt(newPrice);
+                        }
+                    }
+                    setMontant(sum+=parseInt(newPrice));
+                    props.setAnl(oldAn);                    
+                }
+                else {
+                    setMontant(sum+=item.price_adh);
+                }
 
             } else {
-                setMontant(sum+=item.price_nonadh);                
+                if (item.price_nonadh === 0) {
+                    let newPrice = window.prompt('Prix non disponible, Veuillez le saisir');
+                    let oldAn = [...props.anl];
+                    for (let i = 0; i<oldAn.length; i++) {
+                        if (oldAn[i].id === item.id) {
+                            oldAn[i].price_nonadh = parseInt(newPrice);
+                        }
+                    }
+                    setMontant(sum+=parseInt(newPrice));
+                    props.setAnl(oldAn);    
+                }
+                else {
+                    setMontant(sum+=item.price_nonadh);                
+                }
             }
         }
         else {
@@ -247,7 +272,7 @@ const FormPage = (props) => {
                     <span>
                         {item.title}
                     </span>
-                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span>{props.adh ? montantFormatHandler.bind(this, item.price_adh)() : montantFormatHandler.bind(this, item.price_nonadh)()}</span>
                     <span className={classes.Checkbox}><input onChange={radioHandler.bind(this, item)} type="radio" name="spec" id={item.id}/></span>
                 </li> 
             )))
@@ -260,7 +285,7 @@ const FormPage = (props) => {
                     <span>
                         {item.title}
                     </span>
-                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span>{props.adh ? montantFormatHandler.bind(this, item.price_adh)() : montantFormatHandler.bind(this, item.price_nonadh)()}</span>
                     <span className={classes.Checkbox}><input onClick={checkBoxHandler.bind(this, item)} type="checkbox" name="" id={item.id}/></span>
                 </li> 
             )))
@@ -268,12 +293,12 @@ const FormPage = (props) => {
         
         case 'anl':
             typeExamenTitle = 'Analyses'
-            typeExamen=(anl.map((item) => ( 
+            typeExamen=(props.anl.map((item) => ( 
                 <li key={item.id}>
                     <span>
                         {item.title}
                     </span>
-                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span>{props.adh ? montantFormatHandler.bind(this, item.price_adh)() : montantFormatHandler.bind(this, item.price_nonadh)()}</span>
                     <span className={classes.Checkbox}><input onClick={checkBoxHandler.bind(this, item)} type="checkbox" name="" id={item.id}/></span>
                 </li> 
             )))
@@ -286,7 +311,7 @@ const FormPage = (props) => {
                     <span>
                         {item.title}
                     </span>
-                    <span>{`${props.adh ? item.price_adh : item.price_nonadh},00 DA`}</span>
+                    <span>{props.adh ? montantFormatHandler.bind(this, item.price_adh)() : montantFormatHandler.bind(this, item.price_nonadh)()}</span>
                     <span className={classes.Checkbox}><input onClick={checkBoxHandler.bind(this, item)} type="checkbox" name="" id={item.id}/></span>
                 </li> 
             )))
@@ -304,33 +329,15 @@ const FormPage = (props) => {
                     .then(res => {
                         console.log(res);
                         if (res.data.success) {
-                            let {nom, prenom, employeur, categorie, etat_inactif} = res.data.adh;
-                            if (selection.adh_mip) {
-                                setNom(nom);
-                                setPrenom(prenom);
-                                if (etat_inactif) {
-                                    let [reg] = regime.filter(item => item.title === `${categorie} / ${etat_inactif}`);
-                                    setSelection({
-                                        ...selection,
-                                        regime: reg.id
-                                    });
-                                }
-                                else {
-                                    let [reg] = regime.filter(item => item.title === categorie);
-                                    setSelection({
-                                        ...selection,
-                                        regime: reg.id
-                                    });
-                                }
-                                if (!employeur) {
-                                    employeur=" "
-                                } else {
-                                    setEmployeur(employeur);
-                                }
-                            }
-                            else {
-                                alert('Numéro de Sécurité Social déja éxistant !');
-                            }
+                            let {nom, prenom, emp, categorie} = res.data.adh;
+                            setNom(nom);
+                            setPrenom(prenom);
+                            let [reg] = regime.filter(item => item.title === categorie);
+                            setSelection({
+                                ...selection,
+                                regime: reg.id
+                            });
+                            setEmployeur(emp);
                         }
                         else {
                             let addAdh = window.confirm('Adhérant introuvable, Voulez vous l\'ajouter ?');
@@ -347,12 +354,23 @@ const FormPage = (props) => {
     let printHandler = (event) => {
             event.preventDefault();
 
+            if (montant === 0) {
+                return alert('ERREUR : VERIFIEZ VOS DONNEES');
+            }
+
+            if (selection.examen === 'anl' && selection.type[0]) {
+                sessionStorage.setItem('anl', selection.type);
+                sessionStorage.setItem('adh', selection.adh_mip);
+            }
             
-            localStorage.setItem('ssid',ssid);
-            localStorage.setItem('nom',nom);
-            localStorage.setItem('pre',prenom);
-            localStorage.setItem('emp',employeur);
-            localStorage.setItem('mon',montant.toString());
+            sessionStorage.setItem('ssid',ssid);
+            sessionStorage.setItem('nom',nom);
+            sessionStorage.setItem('pre',prenom);
+            sessionStorage.setItem('emp',employeur);
+            if (!employeur) {
+                sessionStorage.setItem('emp',' ');
+            }
+            sessionStorage.setItem('mon',montantFormatHandler(montant));
 
             let benefTitle;
             let regTitle;
@@ -361,25 +379,25 @@ const FormPage = (props) => {
 
             if (selection.regime) {
                 let [reg] = regime.filter(item => item.id === selection.regime);
-                localStorage.setItem('reg',reg.title);
+                sessionStorage.setItem('reg',reg.title);
                 regTitle = reg.title;
             }
 
             if (selection.benef) {
                 let [ben] = benef.filter(item => item.id === selection.benef);
-                localStorage.setItem('ben',ben.title);
+                sessionStorage.setItem('ben',ben.title);
                 benefTitle = ben.title;
             }
 
             if (selection.examen) {
                 const [exam] = examen.filter(item => item.id === selection.examen);
-                localStorage.setItem('exam',exam.title);
+                sessionStorage.setItem('exam',exam.title);
                 examTitle = exam.title;
             }
 
             if (selection.examen === 'spec' && selection.type.length) {
                 const [spe] = spec.filter(item => item.id === selection.type[0]);
-                localStorage.setItem('spec',spe.title);
+                sessionStorage.setItem('spec',spe.title);
                 specTitle = spe.title;
 
             }
@@ -394,7 +412,7 @@ const FormPage = (props) => {
                 nom,
                 prenom,
                 employeur,
-                montant,
+                montant: montantFormatHandler(montant),
                 benefTitle,
                 examTitle,
                 categorie: regTitle,
@@ -412,22 +430,19 @@ const FormPage = (props) => {
                     let {success, id} = res.data;
 
                     if (success) {
-                        localStorage.setItem('bon',id);
-                        window.open('/print');
+                        sessionStorage.setItem('bon',id);
+                        props.history.replace('/print');
                     } else {
                         alert('ERREUR : VERIFIEZ VOS DONNEES')
                     }
                     setTimeout(() => {
-                        localStorage.clear();
+                        sessionStorage.clear();
                     }, 3000);
                 })
                 .catch(err => {
                     alert('ERREUR : VERIFIEZ VOS DONNEES')
                 });
                 
-                
-
-
     }
 
     let resetHandler = (event) => {
@@ -492,7 +507,7 @@ const FormPage = (props) => {
 
                     <div className={classes.FormInput}>
                         <label htmlFor="">Montant Total</label>
-                        <input type="text" name="" id="" disabled value={`${montant},00 DA`} className={classes.SumInput}/>
+                        <input type="text" name="" id="" disabled value={montantFormatHandler.bind(this, montant)()} className={classes.SumInput}/>
                     </div>
 
                 </form>
@@ -515,4 +530,4 @@ const FormPage = (props) => {
     )
 }
 
-export default FormPage;
+export default withRouter(FormPage);

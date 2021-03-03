@@ -15,7 +15,8 @@
 }
 
 .SmallBtn:hover,
-.SmallBtn:focus {
+.SmallBtn:focus,
+.Active {
     background-color: #303841;
-    transform: scale(1.02,1.02);
+    transform: scale(1.05,1.05);
 }
