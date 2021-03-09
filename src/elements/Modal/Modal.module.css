@@ -1,0 +1,43 @@
+.ModalBox {
+    opacity: 0;
+    z-index: 6;
+    position: fixed;
+    transition: all 500ms ease-in-out;
+    border-radius: 1em;
+    background-color: #F3F3F3;
+    width: 40vw;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3em;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 100vh);
+}
+
+.Show {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}
+
+.ModalBox h2 {
+    margin-bottom: 1.5em;
+    color: #3A4750;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.ModalBox button {
+    align-self: stretch;
+    justify-content: center;
+}
+
+.ModalBox input {
+
+}
+
+.ModalBox div {
+    display: flex;
+}

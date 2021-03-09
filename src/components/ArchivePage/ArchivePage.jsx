@@ -251,7 +251,14 @@ class ArchivePage extends Component {
         let oldState = {...this.state.filtres};
         oldState = !this.state.filtres;
         this.setState({...this.state, filtres: oldState});
-        console.log('hey');
+    }
+
+    printHandler = () => {
+        window.print();
+    }
+
+    paraAnlHandler = () => {
+        window.open('/paraprint');
     }
 
     render() {
@@ -326,7 +333,9 @@ class ArchivePage extends Component {
                 <div 
                 className={`${classes.Buttons} ${this.state.filtres ? classes.ButtonsCollapse : ''}`}>
                     <BackBtn/>
+                    <SmallBtn click={this.paraAnlHandler}>Parametres Analyses</SmallBtn>
                     <SmallBtn click={this.exportHandler}>Exporter</SmallBtn>
+                    <SmallBtn click={this.printHandler}>Imprimer</SmallBtn>
                     <SmallBtn click={this.resetHandler}>Réinitialiser Filtres</SmallBtn>
                     <SmallBtn click={this.filtresToggleHandler}>Filtres</SmallBtn>
                 </div>

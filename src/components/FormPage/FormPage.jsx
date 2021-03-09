@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {withRouter} from 'react-router';
 import BackBtn from '../../elements/BackBtn/BackBtn';
 import SmallBtn from '../../elements/SmallBtn/SmallBtn';
+import Modal from '../../elements/Modal/Modal';
 import PageTitle from '../PageTitle/PageTitle';
 import classes from './FormPage.module.css';
 import axios from 'axios';
@@ -88,7 +89,13 @@ const FormPage = (props) => {
     ]);
 
     const [addAdh, setAddAdh] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
+    const [modalText, setModalText] = useState('');
+    const [modalType, setModalType] = useState('');
     
+    let modalShowHandler = () => {
+        setModalShow(!modalShow);
+    } 
     
     let ssidChangeHandler = (event) => {
         setSsid(event.target.value)
@@ -182,14 +189,16 @@ const FormPage = (props) => {
             if (selection.adh_mip) {
                 if (item.price_adh === 0) {
                     let newPrice = window.prompt('Prix non disponible, Veuillez le saisir');
-                    let oldAn = [...props.anl];
-                    for (let i = 0; i<oldAn.length; i++) {
-                        if (oldAn[i].id === item.id) {
-                            oldAn[i].price_adh = parseInt(newPrice);
+                    if (newPrice) {
+                        let oldAn = [...props.anl];
+                        for (let i = 0; i<oldAn.length; i++) {
+                            if (oldAn[i].id === item.id) {
+                                oldAn[i].price_adh = parseInt(newPrice);
+                            }
                         }
+                        setMontant(sum+=parseInt(newPrice));
+                        props.setAnl(oldAn);                    
                     }
-                    setMontant(sum+=parseInt(newPrice));
-                    props.setAnl(oldAn);                    
                 }
                 else {
                     setMontant(sum+=item.price_adh);
@@ -198,14 +207,16 @@ const FormPage = (props) => {
             } else {
                 if (item.price_nonadh === 0) {
                     let newPrice = window.prompt('Prix non disponible, Veuillez le saisir');
-                    let oldAn = [...props.anl];
-                    for (let i = 0; i<oldAn.length; i++) {
-                        if (oldAn[i].id === item.id) {
-                            oldAn[i].price_nonadh = parseInt(newPrice);
+                    if (newPrice) {
+                        let oldAn = [...props.anl];
+                        for (let i = 0; i<oldAn.length; i++) {
+                            if (oldAn[i].id === item.id) {
+                                oldAn[i].price_nonadh = parseInt(newPrice);
+                            }
                         }
+                        setMontant(sum+=parseInt(newPrice));
+                        props.setAnl(oldAn);    
                     }
-                    setMontant(sum+=parseInt(newPrice));
-                    props.setAnl(oldAn);    
                 }
                 else {
                     setMontant(sum+=item.price_nonadh);                
@@ -329,19 +340,29 @@ const FormPage = (props) => {
                     .then(res => {
                         console.log(res);
                         if (res.data.success) {
-                            let {nom, prenom, emp, categorie} = res.data.adh;
-                            setNom(nom);
-                            setPrenom(prenom);
-                            let [reg] = regime.filter(item => item.title === categorie);
+                            if (res.data.contentieux) {
+                                let cont = res.data.contAdh;
+                                let switchToPub = window.confirm(`Cet Adhérant fait parti de la liste des contentieux,\nVoulez vous continuer en tant que adhérant M.I.P ?\n\nNom : "${cont.nom}"\nPrénom : "${cont.prenom}"\nRégion : "${cont.region}"\nDate de retraite : "${cont.date_retraite}"\nNuméro de décision : "${cont.num_decision}"\nCode Entreprise/Unité : "${cont.code_entreprise}/${cont.code_unite}" `)
+                                if (!switchToPub) {
+                                    props.history.push('/non_adh');
+                                    setMontant(0);
+                                    setSelection({...selection, adh_mip: false, examen: '', type: []});
+                                }
+                            }
+                            let {nom: nomPat, prenom: prenomPat, emp: empPat, categorie: categoriePat} = res.data.adh;
+                            setNom(nomPat);
+                            setPrenom(prenomPat);
+                            let [reg] = regime.filter(item => item.title === categoriePat);
                             setSelection({
                                 ...selection,
                                 regime: reg.id
                             });
-                            setEmployeur(emp);
+                            setEmployeur(empPat);
                         }
                         else {
-                            let addAdh = window.confirm('Adhérant introuvable, Voulez vous l\'ajouter ?');
-                            setAddAdh(addAdh);
+                            setModalShow(true);
+                            setModalText('Adhérant introuvable, Voulez vous l\'ajouter ?');
+                            setModalType('confirm');
                         }
                     })
                     .catch(err => alert('ERREUR : VERIFIEZ VOS DONNEES'));
@@ -359,47 +380,51 @@ const FormPage = (props) => {
             }
 
             if (selection.examen === 'anl' && selection.type[0]) {
-                sessionStorage.setItem('anl', selection.type);
-                sessionStorage.setItem('adh', selection.adh_mip);
+                localStorage.setItem('anl', selection.type);
+                localStorage.setItem('adh', selection.adh_mip);
             }
             
-            sessionStorage.setItem('ssid',ssid);
-            sessionStorage.setItem('nom',nom);
-            sessionStorage.setItem('pre',prenom);
-            sessionStorage.setItem('emp',employeur);
+            localStorage.setItem('ssid',ssid);
+            localStorage.setItem('nom',nom);
+            localStorage.setItem('pre',prenom);
+            localStorage.setItem('emp',employeur);
             if (!employeur) {
-                sessionStorage.setItem('emp',' ');
+                localStorage.setItem('emp',' ');
             }
-            sessionStorage.setItem('mon',montantFormatHandler(montant));
+            localStorage.setItem('mon',montantFormatHandler(montant));
 
             let benefTitle;
             let regTitle;
             let examTitle;
             let specTitle;
+            let anls;
 
             if (selection.regime) {
                 let [reg] = regime.filter(item => item.id === selection.regime);
-                sessionStorage.setItem('reg',reg.title);
+                localStorage.setItem('reg',reg.title);
                 regTitle = reg.title;
             }
 
             if (selection.benef) {
                 let [ben] = benef.filter(item => item.id === selection.benef);
-                sessionStorage.setItem('ben',ben.title);
+                localStorage.setItem('ben',ben.title);
                 benefTitle = ben.title;
             }
 
             if (selection.examen) {
                 const [exam] = examen.filter(item => item.id === selection.examen);
-                sessionStorage.setItem('exam',exam.title);
+                localStorage.setItem('exam',exam.title);
                 examTitle = exam.title;
             }
 
             if (selection.examen === 'spec' && selection.type.length) {
                 const [spe] = spec.filter(item => item.id === selection.type[0]);
-                sessionStorage.setItem('spec',spe.title);
+                localStorage.setItem('spec',spe.title);
                 specTitle = spe.title;
+            }
 
+            if (selection.examen === 'anl' && selection.type[0]) {
+                anls = selection.type;
             }
 
             let month = new Date().getMonth() + 1;
@@ -418,7 +443,8 @@ const FormPage = (props) => {
                 categorie: regTitle,
                 specTitle,
                 date: `${year}-${month}-${day}`,
-                addAdh
+                addAdh,
+                anls
             }
 
             if (selection.adh_mip) {
@@ -430,14 +456,13 @@ const FormPage = (props) => {
                     let {success, id} = res.data;
 
                     if (success) {
-                        sessionStorage.setItem('bon',id);
-                        props.history.replace('/print');
+                        
+                        localStorage.setItem('bon',id);
+                        window.open('/print');
                     } else {
                         alert('ERREUR : VERIFIEZ VOS DONNEES')
                     }
-                    setTimeout(() => {
-                        sessionStorage.clear();
-                    }, 3000);
+                    
                 })
                 .catch(err => {
                     alert('ERREUR : VERIFIEZ VOS DONNEES')
@@ -524,8 +549,13 @@ const FormPage = (props) => {
                     </div>
                 </div>
             </div>
-
-
+            <div onClick={modalShowHandler} className={`${classes.BackDrop} ${modalShow ? classes.ShowBD : ''}`}></div>
+        
+            <Modal 
+            toggle={modalShowHandler} 
+            show={modalShow} 
+            modalType={modalType}
+            confirmRes={setAddAdh}>{modalText}</Modal>
         </div>
     )
 }

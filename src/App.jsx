@@ -6,6 +6,7 @@ import FormPage from "./components/FormPage/FormPage";
 import PrintPage from "./components/PrintPage/PrintPage";
 import AnalysePrint from "./components/AnalysePrint/AnalysePrint";
 import ArchivePage from "./components/ArchivePage/ArchivePage";
+import ParaAnalyse from "./components/ParaAnalyse/ParaAnalyse";
 
 const App = () => {
 
@@ -57,6 +58,10 @@ const App = () => {
 	return (
 		<div className="App">
 			<Switch>
+
+                <Route path="/paraprint" exact>
+					<ParaAnalyse anl={anl} />
+				</Route>
 
 				<Route path="/anprint" exact>
 					<AnalysePrint anl={anl} />

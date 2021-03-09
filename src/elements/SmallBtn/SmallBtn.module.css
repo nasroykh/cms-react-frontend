@@ -17,6 +17,7 @@
 .SmallBtn:hover,
 .SmallBtn:focus,
 .Active {
+    text-decoration: underline;
     background-color: #303841;
     transform: scale(1.05,1.05);
 }

@@ -38,8 +38,8 @@ const AnalysePrint = (props) => {
     }
 
     let list;
-    let typePat = sessionStorage.getItem('adh');
-    let selectedAnl = sessionStorage.getItem('anl').split(',');
+    let typePat = localStorage.getItem('adh');
+    let selectedAnl = localStorage.getItem('anl').split(',');
     let fetchedAnl= [];
     for (let i = 0; i<selectedAnl.length; i++) {
         console.log(selectedAnl[i]);
@@ -51,19 +51,31 @@ const AnalysePrint = (props) => {
             <td>{typePat==='true' ? montantFormatHandler(item.price_adh) : montantFormatHandler(item.price_nonadh)}</td>
         </tr>
     ));
+    window.print();
 
     setTimeout(() => {
-        window.print();
-        props.history.go(-2);
-    }, 1000);
+        localStorage.clear();
+        window.close();
+    }, 2000);
 
         return (
         <div className={classes.AnalysePrint}>
 
             <div className={classes.BonAnl}>
-                <div className={classes.DateBon}>
-                    <div>Bon n° {sessionStorage.getItem('bon')}</div>
-                    <div>Date: {`${day}/${month}/${year}`}</div>
+                <div className={classes.Head}>
+                    <div className={classes.titre1}>MUTUELLE DE L'INDUSTRIE DU PETROLE</div>
+                    <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
+                    <div className={classes.zone}>03, zone de sieges Bethioua</div>
+                </div>
+                <div className={classes.Infos}>
+                    <div><b>Bon n°</b> {localStorage.getItem('bon')}</div>
+                    <div><b>Date:</b> {`${day}/${month}/${year}`}</div>
+                    <div><b>N° SS:</b> {localStorage.getItem('ssid')}</div>
+                    <div><b>Nom:</b> {localStorage.getItem('nom')}</div>
+                    <div><b>Prénom:</b> {localStorage.getItem('pre')}</div>
+                    <div><b>Régime:</b> {localStorage.getItem('reg')}</div>
+                    <div><b>Employeur:</b> {localStorage.getItem('emp')}</div>
+                    <div><b>Béneficiaire:</b> {localStorage.getItem('ben')}</div>
                 </div>
                 <table>
                     <thead>
@@ -78,16 +90,27 @@ const AnalysePrint = (props) => {
                 </table>
                 <div className={classes.Total}>
                     <div>TOTAL</div>
-                    <div>{sessionStorage.getItem('mon')}</div>
+                    <div>{localStorage.getItem('mon')}</div>
                 </div>
             </div>
 
             <div className={classes.Separator}></div>
 
             <div className={classes.BonAnl}>
-                <div className={classes.DateBon}>
-                    <div>Bon n° {sessionStorage.getItem('bon')}</div>
-                    <div>Date: {`${day}/${month}/${year}`}</div>
+            <div className={classes.Head}>
+                    <div className={classes.titre1}>MUTUELLE DE L'INDUSTRIE DU PETROLE</div>
+                    <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
+                    <div className={classes.zone}>03, zone de sieges Bethioua</div>
+                </div>
+                <div className={classes.Infos}>
+                    <div><b>Bon n°</b> {localStorage.getItem('bon')}</div>
+                    <div><b>Date:</b> {`${day}/${month}/${year}`}</div>
+                    <div><b>N° SS:</b> {localStorage.getItem('ssid')}</div>
+                    <div><b>Nom:</b> {localStorage.getItem('nom')}</div>
+                    <div><b>Prénom:</b> {localStorage.getItem('pre')}</div>
+                    <div><b>Régime:</b> {localStorage.getItem('reg')}</div>
+                    <div><b>Employeur:</b> {localStorage.getItem('emp')}</div>
+                    <div><b>Béneficiaire:</b> {localStorage.getItem('ben')}</div>
                 </div>
                 <table>
                     <thead>
@@ -102,7 +125,7 @@ const AnalysePrint = (props) => {
                 </table>
                 <div className={classes.Total}>
                     <div>TOTAL</div>
-                    <div>{sessionStorage.getItem('mon')}</div>
+                    <div>{localStorage.getItem('mon')}</div>
                 </div>
             </div>
 

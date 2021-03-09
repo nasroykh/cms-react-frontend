@@ -53,9 +53,9 @@
 .FormInput > input, .FormInput select {
     background: none;
     border: none;
-    outline: none;
     border-bottom: 2px #3A4750 solid;
     color: #3A4750;
+    background-color: rgba(58, 71, 80, 0.03);
     font-size: 1.3em;
     padding: .2em;
 }
@@ -132,7 +132,6 @@
 
 .Checkbox > input {
     cursor: pointer;
-    outline: none;
     border: none;
     appearance: none;
     content: url("../../assets/unchecked.svg");
@@ -150,6 +149,24 @@
     display: flex;
     width: 100%;
     justify-content: flex-end;
+}
+
+.BackDrop {
+    cursor: pointer;
+    display: none;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(48, 56, 65, 0.6);
+}
+
+.ShowBD {
+    display: block;
 }
 
 @media (max-width: 630px) {

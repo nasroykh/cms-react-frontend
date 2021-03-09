@@ -11,10 +11,6 @@
     margin: 0 1em;
 }
 
-.Buttons > button:nth-child(2) {
-    margin-left: auto;
-}
-
 .BackDrop {
     cursor: pointer;
     display: none;
@@ -197,5 +193,27 @@
 }
 
 @media print {
+    .Buttons, .BackDrop, .SideDrawer {
+        display: none;
+    }
     
+    .ArchivePage {
+        margin: 0 1em;
+        background-color: white;
+    }
+    
+    .TableWrapper {
+        height: 100%;
+        border: none;
+        margin: 0;
+    }
+
+    .ArchivePage td, .ArchivePage th {
+        font-size: 1rem;
+    }
+
+    .ArchivePage th span {
+        display: none;
+    }
+
 }

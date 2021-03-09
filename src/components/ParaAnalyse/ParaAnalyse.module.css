@@ -1,8 +1,8 @@
-.AnalysePrint {
+.ParaAnalyse {
     background-color: white;
     display: flex;
     justify-content: space-evenly;
-    height: 100vh;
+    height: 100%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.1rem;
 }
@@ -31,8 +31,9 @@
 
 .Infos {
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1rem;
     padding: .25em 0;
 }
@@ -43,53 +44,47 @@
     padding-right: .25rem;
 }
 
-
-.Separator {
-    width: 0.1px;
-    border-right: 3px dashed black;
-}
-
 .BonAnl {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 45%;
-}
-
-.AnalysePrint table {
     width: 100%;
 }
 
-.AnalysePrint td, .AnalysePrint th {
+.ParaAnalyse table {
+    width: 100%;
+}
+
+.ParaAnalyse td, .ParaAnalyse th {
     padding: .5em;
     font-size: 1rem;
 }
 
-.AnalysePrint td:last-child {
+.ParaAnalyse td:last-child {
     border-right: none;
     text-align: center;
     font-weight: 600;
     padding: 0 .25em;
 }
 
-.AnalysePrint th  {
+.ParaAnalyse th  {
     border-top: none;
     background-color: #3A4750;
     color: white;
     position: relative;
 }
 
-.AnalysePrint th:last-child {
+.ParaAnalyse th:last-child {
     border: none;
 }
 
-.AnalysePrint tbody tr:nth-child(even) {
+.ParaAnalyse tbody tr:nth-child(even) {
     background-color: rgba(58, 71, 80, 0.05);
 }
 
 .Total {
     display: grid;
-    grid-template-columns: 77.5% 1fr;
+    grid-template-columns: 88.5% 1fr;
     justify-content: space-between;
     width: 100%;
     border-top: 5px solid #3A4750;
