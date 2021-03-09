@@ -18,14 +18,16 @@ ul {
 }
 
 body, html {
-  overflow: hidden;
+  overflow: auto;
   height: 100%;
+  background-color: #f3f3f3;
 }
 
 @media print {
 	body, html {
 		overflow: auto;
     height: auto;
+    background-color: white;
 	}
 }
 

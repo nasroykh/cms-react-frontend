@@ -6,36 +6,47 @@ import axios from '../../axios';
 const ParaAnalyse = (props) => {
 
     const [fetchedAnl, setFetchedAnl] = useState([]);
-    const [updatedAnl, setUpdatedAnl] = useState([]);
 
     let list;
     useEffect(() => {
-        axios.get('/fetchAnalyses')
+        axios.get('/fetchAnalyses', { params: {
+            type: localStorage.getItem('an_type'),
+            min_date: localStorage.getItem('an_min'),
+            max_date: localStorage.getItem('an_max')
+        }})
         .then(res => {
-            // let arr = props.anl.filter(item => item.id === 'anl');
-            setFetchedAnl(res.data);
+            let arr = [];
+            let fetched = res.data;
+            let all = props.anl;
+            for (let i = 0; i < fetched.length; i++) {
+                for (let j = 0; j < all.length; j++) {
+                    if (fetched[i].anl === all[j].id) {
+                        arr.push({
+                            id: fetched[i].anl,
+                            title: all[j].title,
+                            nombre: fetched[i].nombre,
+                            date: fetched[i].date,
+                            price_adh: all[j].price_adh,
+                            price_nonadh: all[j].price_nonadh
+                        });
+                    }
+                }   
+            }
+            console.log(arr);
+            setFetchedAnl(arr);
+
+            window.print();
+
+            setTimeout(() => {
+                localStorage.clear();
+                window.close();
+            }, 2000);
         })
         .catch(err => {
             console.log(err);
         })
+        
     }, []);
-
-
-
-    // for (let i = 0; i<fetchedAnl.length; i++) {
-    //     let updatedAnlArr = []
-    //     updatedAnlArr.push(props.anl.filter(item => item.id === selectedAnl[i])[0]);
-    // }
-    
-    // list = fetchedAnl.map(item => {
-    //     return (
-    //     <tr>
-    //         <td>{item.anl}</td>
-    //         <td>{item.nombre}</td>
-    //         <td>{item.date}</td>
-    //         <td>1700da</td>
-    //     </tr>
-    // )});
 
     let montantFormatHandler = (num) => {
         let oldMontant = num;
@@ -50,6 +61,20 @@ const ParaAnalyse = (props) => {
                     arr.splice(2,0,' ');
                 break;
 
+                case 6:
+                    arr.splice(3,0,' ');
+                break;
+
+                case 7:
+                    arr.splice(1,0,' ');
+                    arr.splice(5,0,' ');
+                break;
+
+                case 8:
+                    arr.splice(2,0,' ');
+                    arr.splice(6,0,' ');
+                break;
+
                 default:
                     break;
             }
@@ -60,13 +85,46 @@ const ParaAnalyse = (props) => {
 
 
 
+    let montantTotal = () => {
+        let sum = 0;
+        for (let i = 0; i < fetchedAnl.length; i++) {
+            if (localStorage.getItem('an_type')==='adh') {
+                sum += (fetchedAnl[i].price_adh*fetchedAnl[i].nombre);
+            }
+            else {
+                sum += (fetchedAnl[i].price_nonadh*fetchedAnl[i].nombre);
+            }
+        }
 
-    // window.print();
+        return sum;
+    }
 
-    // setTimeout(() => {
-    //     localStorage.clear();
-    //     window.close();
-    // }, 2000);
+
+
+    if (fetchedAnl.length) {
+        list = fetchedAnl.map((item,index) => {
+            return (
+            <tr key={index}>
+                <td>{item.title}</td>
+                <td>{item.nombre}</td>
+                <td>{item.date}</td>
+                <td>{localStorage.getItem('an_type')==='adh' ? montantFormatHandler(item.price_adh*item.nombre) : montantFormatHandler(item.price_nonadh*item.nombre)}</td>
+            </tr>
+        )});
+        console.log(list)
+        if (list.length > 18) {
+            for (let i = 18; i < list.length; i+=20) {
+                list.splice(i,0,(<tr className={classes.PageSep}><td></td><td></td><td></td><td></td></tr>));
+            }
+        }
+    }
+    else {
+        list = (
+            <tr>
+                <td>Aucun résultat</td>
+            </tr>
+        )
+    }
 
         return (
         <div className={classes.ParaAnalyse}>
@@ -83,8 +141,8 @@ const ParaAnalyse = (props) => {
                         <tr>
                             <th>Type d'analyse</th>
                             <th>Nombre</th>
-                            <th>Montant</th>
                             <th>Date</th>
+                            <th>Montant Journalier</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +151,7 @@ const ParaAnalyse = (props) => {
                 </table>
                 <div className={classes.Total}>
                     <div>TOTAL</div>
-                    <div>1700da</div>
+                    <div>{montantFormatHandler(montantTotal())}</div>
                 </div>
             </div>
         </div>

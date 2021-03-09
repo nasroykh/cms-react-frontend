@@ -1,6 +1,6 @@
 .ArchivePage {
-    margin: 0 1em;
-    margin-top: 1em;
+    padding: 0 1em;
+    padding-top: 1em;
     text-align: center;
     overflow: auto;
 }
@@ -12,8 +12,9 @@
 }
 
 .BackDrop {
+    position: fixed;
+    transform: translateY(-100%);
     cursor: pointer;
-    display: none;
     z-index: 5;
     width: 100vw;
     height: 100vh;
@@ -22,11 +23,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(48, 56, 65, 0.6);
+    background-color: rgba(48, 56, 65, 0.8);
+    transition: all 400ms ease-in-out;
 }
 
 .ShowBD {
-    display: block;
+    transform: translateY(0%);
 }
 
 .SideDrawer {
@@ -134,7 +136,7 @@
     border: #303841 3px solid;
     border-radius: 5px;
     overflow: auto;
-    height: 78vh;
+    height: 82.5vh;
     margin: 2em 0;
 }
 
@@ -193,12 +195,14 @@
 }
 
 @media print {
+    
     .Buttons, .BackDrop, .SideDrawer {
         display: none;
     }
     
     .ArchivePage {
-        margin: 0 1em;
+        margin: 0;
+        padding: .25em;
         background-color: white;
     }
     

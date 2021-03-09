@@ -437,7 +437,7 @@ const FormPage = (props) => {
                 nom,
                 prenom,
                 employeur,
-                montant: montantFormatHandler(montant),
+                montant,
                 benefTitle,
                 examTitle,
                 categorie: regTitle,
@@ -456,7 +456,6 @@ const FormPage = (props) => {
                     let {success, id} = res.data;
 
                     if (success) {
-                        
                         localStorage.setItem('bon',id);
                         window.open('/print');
                     } else {
@@ -467,7 +466,6 @@ const FormPage = (props) => {
                 .catch(err => {
                     alert('ERREUR : VERIFIEZ VOS DONNEES')
                 });
-                
     }
 
     let resetHandler = (event) => {

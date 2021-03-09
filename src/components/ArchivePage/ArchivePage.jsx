@@ -258,7 +258,45 @@ class ArchivePage extends Component {
     }
 
     paraAnlHandler = () => {
+        localStorage.setItem('an_type', this.state.type);
+        localStorage.setItem('an_min', this.state.min_date);
+        localStorage.setItem('an_max', this.state.max_date);
         window.open('/paraprint');
+    }
+
+    montantFormatHandler = (num) => {
+        let oldMontant = num;
+        let arr = oldMontant.toString().split('');
+        if (arr.length >= 4) {
+            switch (arr.length) {
+                case 4:
+                    arr.splice(1,0,' ');
+                break;
+
+                case 5:
+                    arr.splice(2,0,' ');
+                break;
+
+                case 6:
+                    arr.splice(3,0,' ');
+                break;
+
+                case 7:
+                    arr.splice(1,0,' ');
+                    arr.splice(5,0,' ');
+                break;
+
+                case 8:
+                    arr.splice(2,0,' ');
+                    arr.splice(6,0,' ');
+                break;
+
+                default:
+                    break;
+            }
+        }
+        let newNum = `${arr.join('')},00 DA`;
+        return newNum;
     }
 
     render() {
@@ -279,7 +317,7 @@ class ArchivePage extends Component {
                             <td>{item.examenmedical}</td>
                             <td>{item.spec}</td>
                             <td>{item.date}</td>
-                            <td>{item.montant}</td>
+                            <td>{this.montantFormatHandler(item.montant)}</td>
                         </tr>
                     ))
                     break;
@@ -296,7 +334,7 @@ class ArchivePage extends Component {
                             <td>{item.examenmedical}</td>
                             <td>{item.spec}</td>
                             <td>{item.date}</td>
-                            <td>{item.montant}</td>
+                            <td>{this.montantFormatHandler(item.montant)}</td>
                         </tr>
                     ))
                     break;
@@ -313,7 +351,7 @@ class ArchivePage extends Component {
                             <td>{item.examenmedical}</td>
                             <td>{item.spec}</td>
                             <td>{item.date}</td>
-                            <td>{item.montant}</td>
+                            <td>{this.montantFormatHandler(item.montant)}</td>
                         </tr>
                     ))
                     break;

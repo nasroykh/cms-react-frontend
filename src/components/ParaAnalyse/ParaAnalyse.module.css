@@ -1,10 +1,6 @@
 .ParaAnalyse {
     background-color: white;
-    display: flex;
-    justify-content: space-evenly;
-    height: 100%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 1.1rem;
 }
 
 .Head {
@@ -14,7 +10,7 @@
     flex-direction: column;
     font-weight: 700;
     letter-spacing: .05rem;
-    line-height: 1.5;
+    line-height: 1.7;
 }
 
 .titre1 , .titre2 {
@@ -26,7 +22,7 @@
 
 .zone {
     font-size: 1em;
-    margin: .5em 0;
+    margin: .25em 0;
 }
 
 .Infos {
@@ -34,7 +30,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
     padding: .25em 0;
 }
 
@@ -52,12 +49,14 @@
 }
 
 .ParaAnalyse table {
-    width: 100%;
+    width: 90%;
+    position: relative;
 }
 
 .ParaAnalyse td, .ParaAnalyse th {
-    padding: .5em;
-    font-size: 1rem;
+    padding: .75em .5em;
+    font-size: 0.85rem;
+    text-align: center;
 }
 
 .ParaAnalyse td:last-child {
@@ -67,11 +66,17 @@
     padding: 0 .25em;
 }
 
+.ParaAnalyse td:first-child {
+    text-align: left;
+}
+
 .ParaAnalyse th  {
     border-top: none;
     background-color: #3A4750;
     color: white;
     position: relative;
+    padding: 1em 0;
+    font-size: 0.90rem;
 }
 
 .ParaAnalyse th:last-child {
@@ -83,18 +88,19 @@
 }
 
 .Total {
-    display: grid;
-    grid-template-columns: 88.5% 1fr;
-    justify-content: space-between;
-    width: 100%;
+    width: 90%;
     border-top: 5px solid #3A4750;
-    align-items: center;
-    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 7%;
 }
 
 .Total div{
-    padding: .5em;
-    font-size: 1.1em;
+    padding: 1em;
+    font-size: 0.90rem;
     font-weight: 700;
 }
 
+.PageSep td {
+    height: 95px;
+}
