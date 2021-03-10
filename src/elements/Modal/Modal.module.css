@@ -5,15 +5,16 @@
     transition: all 500ms ease-in-out;
     border-radius: 1em;
     background-color: #F3F3F3;
+    border: 5px solid #3A4750;
     width: 40vw;
-    height: 40vh;
+    height: 30vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 3em;
     left: 50%;
     top: 50%;
+    padding: 1em;
     transform: translate(-50%, 100vh);
 }
 
@@ -23,15 +24,18 @@
 }
 
 .ModalBox h2 {
-    margin-bottom: 1.5em;
+    margin-bottom: 2em;
     color: #3A4750;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    text-align: center;
 }
 
 .ModalBox button {
     align-self: stretch;
     justify-content: center;
+    width: 40%;
+    height: 75%;
 }
 
 .ModalBox input {
@@ -40,4 +44,5 @@
 
 .ModalBox div {
     display: flex;
+    justify-content: center;
 }

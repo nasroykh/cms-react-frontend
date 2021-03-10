@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {withRouter} from 'react-router';
+import {useHistory} from 'react-router-dom';
 import classes from './ParaAnalyse.module.css';
 import axios from '../../axios';
 
 const ParaAnalyse = (props) => {
-
+    let history = useHistory();
     const [fetchedAnl, setFetchedAnl] = useState([]);
 
     let list;
@@ -35,17 +36,19 @@ const ParaAnalyse = (props) => {
             console.log(arr);
             setFetchedAnl(arr);
 
-            window.print();
-
-            setTimeout(() => {
-                localStorage.clear();
-                window.close();
-            }, 2000);
         })
         .catch(err => {
             console.log(err);
         })
         
+        setTimeout(() => {
+            window.print();
+            setTimeout(() => {
+                localStorage.clear();
+                history.goBack();
+            }, 500);
+        }, 500);
+
     }, []);
 
     let montantFormatHandler = (num) => {
@@ -126,6 +129,9 @@ const ParaAnalyse = (props) => {
         )
     }
 
+
+    
+    
         return (
         <div className={classes.ParaAnalyse}>
 

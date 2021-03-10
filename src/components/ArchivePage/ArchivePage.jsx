@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import {withRouter} from 'react-router'
 import SmallBtn from '../../elements/SmallBtn/SmallBtn';
 import BackBtn from '../../elements/BackBtn/BackBtn';
 import classes from './ArchivePage.module.css';
@@ -261,7 +262,7 @@ class ArchivePage extends Component {
         localStorage.setItem('an_type', this.state.type);
         localStorage.setItem('an_min', this.state.min_date);
         localStorage.setItem('an_max', this.state.max_date);
-        window.open('/paraprint');
+        this.props.history.push('/paraprint');
     }
 
     montantFormatHandler = (num) => {
@@ -448,4 +449,4 @@ class ArchivePage extends Component {
     }
 }
 
-export default ArchivePage;
+export default withRouter(ArchivePage);

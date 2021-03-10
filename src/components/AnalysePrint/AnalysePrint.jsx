@@ -1,8 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {withRouter} from 'react-router';
+import {useHistory} from 'react-router-dom';
 import classes from './AnalysePrint.module.css';
 
 const AnalysePrint = (props) => {
+
+    let history = useHistory();
+
+    useEffect(() => {
+        setTimeout(() => {
+            window.print();
+            setTimeout(() => {
+                localStorage.clear();
+                history.goBack();
+            }, 500);
+        }, 500);
+    }, [])
 
     let month = (new Date().getMonth() + 1).toString();
     let day = new Date().getDate().toString();
@@ -51,12 +64,6 @@ const AnalysePrint = (props) => {
             <td>{typePat==='true' ? montantFormatHandler(item.price_adh) : montantFormatHandler(item.price_nonadh)}</td>
         </tr>
     ));
-    window.print();
-
-    setTimeout(() => {
-        localStorage.clear();
-        window.close();
-    }, 2000);
 
         return (
         <div className={classes.AnalysePrint}>

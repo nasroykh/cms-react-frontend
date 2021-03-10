@@ -68,7 +68,7 @@ const App = () => {
 				</Route>
 				
 				<Route path="/print" exact>
-					<PrintPage />
+					<PrintPage anl={anl}/>
 				</Route>
 
 				<Route path="/non_adh" exact>

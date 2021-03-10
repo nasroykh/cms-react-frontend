@@ -4,17 +4,14 @@ import SmallBtn from '../SmallBtn/SmallBtn';
 
 const Modal = (props) => {
     let content;
-    let confirmHandler = (confirm) => {
-        props.toggle();
-        props.confirmRes(confirm);
-    }
+
     switch (props.modalType) {
         case 'confirm':
             content = ([
                     <h2>{props.children}</h2>,
                     <div>
-                        <SmallBtn click={confirmHandler.bind(this, false)}>NON</SmallBtn>
-                        <SmallBtn click={confirmHandler.bind(this, true)}>OUI</SmallBtn>
+                        <SmallBtn click={props.toggle}>NON</SmallBtn>
+                        <SmallBtn>OUI</SmallBtn>
                     </div>
             ]);
             break;
@@ -30,7 +27,7 @@ const Modal = (props) => {
         case 'alert':
             content = ([
                 <h2>{props.children}</h2>,
-                <SmallBtn>OK</SmallBtn>
+                <SmallBtn click={props.toggle}>OK</SmallBtn>
             ]);
         
             break;

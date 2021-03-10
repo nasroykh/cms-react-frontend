@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {withRouter} from 'react-router';
+import {useHistory} from 'react-router-dom';
 import BackBtn from '../../elements/BackBtn/BackBtn';
 import SmallBtn from '../../elements/SmallBtn/SmallBtn';
 import Modal from '../../elements/Modal/Modal';
@@ -8,6 +9,8 @@ import classes from './FormPage.module.css';
 import axios from 'axios';
 
 const FormPage = (props) => {
+
+    const history = useHistory();
 
     let regimeAdh = [        
         {id: '0', title: 'Sélectionner'},
@@ -333,6 +336,7 @@ const FormPage = (props) => {
             break;   
         }
 
+        
     let adhFetchHandler = (event) => {
         if (selection.adh_mip) {
             if ((event.code === 'Enter' || event.code === 'NumpadEnter') && ssid) {
@@ -360,9 +364,8 @@ const FormPage = (props) => {
                             setEmployeur(empPat);
                         }
                         else {
-                            setModalShow(true);
-                            setModalText('Adhérant introuvable, Voulez vous l\'ajouter ?');
-                            setModalType('confirm');
+                            let isAddAdh = window.confirm('Adhérant introuvable, Voulez vous l\'ajouter ?');
+                            setAddAdh(isAddAdh)
                         }
                     })
                     .catch(err => alert('ERREUR : VERIFIEZ VOS DONNEES'));
@@ -457,7 +460,7 @@ const FormPage = (props) => {
 
                     if (success) {
                         localStorage.setItem('bon',id);
-                        window.open('/print');
+                        history.push('/print');
                     } else {
                         alert('ERREUR : VERIFIEZ VOS DONNEES')
                     }
@@ -472,7 +475,7 @@ const FormPage = (props) => {
         event.preventDefault();
         window.location.reload();
     }
-        
+
     return (
         <div className={classes.FormPage}>
             <div className={classes.FormHeader}>
@@ -547,13 +550,13 @@ const FormPage = (props) => {
                     </div>
                 </div>
             </div>
+            
             <div onClick={modalShowHandler} className={`${classes.BackDrop} ${modalShow ? classes.ShowBD : ''}`}></div>
-        
+
             <Modal 
-            toggle={modalShowHandler} 
-            show={modalShow} 
-            modalType={modalType}
-            confirmRes={setAddAdh}>{modalText}</Modal>
+                toggle={modalShowHandler} 
+                show={modalShow} 
+                modalType={modalType}>{modalText}</Modal>
         </div>
     )
 }
