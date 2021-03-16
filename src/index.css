@@ -29,6 +29,9 @@ body, html {
     height: auto;
     background-color: white;
 	}
+  html {
+    font-size: 13px;
+  }
 }
 
 body {
@@ -52,10 +55,3 @@ code {
     font-size: 11px;
   }
 }
-
-@media print {
-  html {
-    font-size: 13px;
-  }
-}
-

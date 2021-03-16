@@ -327,7 +327,7 @@ class ArchivePage extends Component {
                     list = this.state.patients.map((item) => (
                         <tr key={item.id}>
                             <td>{item.bon}</td>
-                            <td>{item.ssid}</td>
+                            <td>{item.ssidGenerated==='false' ? item.ssid : '--'}</td>
                             <td>{item.nom}</td>
                             <td>{item.prenom}</td>
                             <td>{item.employeur}</td>
@@ -344,7 +344,7 @@ class ArchivePage extends Component {
                     list = this.state.patients.map((item) => (
                         <tr key={item.id}>
                             <td>{item.bon}</td>
-                            <td>{item.adh_ssid || item.non_ssid}</td>
+                            <td>{item.adh_ssid || (item.ssidGenerated==='false' ? item.non_ssid : '--')}</td>
                             <td>{item.adh_nom || item.non_nom}</td>
                             <td>{item.adh_prenom || item.non_prenom}</td>
                             <td>{item.adh_employeur || item.non_employeur}</td>

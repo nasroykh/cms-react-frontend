@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {withRouter} from 'react-router';
 import {useHistory} from 'react-router-dom';
 import BackBtn from '../../elements/BackBtn/BackBtn';
@@ -92,6 +92,7 @@ const FormPage = (props) => {
     ]);
 
     const [addAdh, setAddAdh] = useState(false);
+    const [ssidGenerated, setSsidGenerated] = useState('false');
     const [modalShow, setModalShow] = useState(false);
     const [modalText, setModalText] = useState('');
     const [modalType, setModalType] = useState('');
@@ -107,7 +108,14 @@ const FormPage = (props) => {
     let generateSsidHandler = (event) => {
         event.preventDefault();
         if (!selection.adh_mip) {
-            setSsid(new Date().getTime());
+            if (ssidGenerated==='false') {
+                setSsid(new Date().getTime());
+                setSsidGenerated('true');
+            }
+            else {
+                setSsid('');
+                setSsidGenerated('false');
+            }
         }
     }
     
@@ -346,7 +354,7 @@ const FormPage = (props) => {
                         if (res.data.success) {
                             if (res.data.contentieux) {
                                 let cont = res.data.contAdh;
-                                let switchToPub = window.confirm(`Cet Adhérant fait parti de la liste des contentieux,\nVoulez vous continuer en tant que adhérant M.I.P ?\n\nNom : "${cont.nom}"\nPrénom : "${cont.prenom}"\nRégion : "${cont.region}"\nDate de retraite : "${cont.date_retraite}"\nNuméro de décision : "${cont.num_decision}"\nCode Entreprise/Unité : "${cont.code_entreprise}/${cont.code_unite}" `)
+                                let switchToPub = window.confirm(`Cet Adhérent fait parti de la liste des contentieux,\nVoulez vous confirmer ?\n\nNom : "${cont.nom}"\nPrénom : "${cont.prenom}"\nRégion : "${cont.region}"\nDate de retraite : "${cont.date_retraite}"\nNuméro de décision : "${cont.num_decision}"\nCode Entreprise/Unité : "${cont.code_entreprise}/${cont.code_unite}" `)
                                 if (!switchToPub) {
                                     props.history.push('/non_adh');
                                     setMontant(0);
@@ -364,7 +372,7 @@ const FormPage = (props) => {
                             setEmployeur(empPat);
                         }
                         else {
-                            let isAddAdh = window.confirm('Adhérant introuvable, Voulez vous l\'ajouter ?');
+                            let isAddAdh = window.confirm('Adhérent introuvable, Voulez vous l\'ajouter ?');
                             setAddAdh(isAddAdh)
                         }
                     })
@@ -380,6 +388,10 @@ const FormPage = (props) => {
 
             if (montant === 0) {
                 return alert('ERREUR : VERIFIEZ VOS DONNEES');
+            }
+
+            if (!selection.adh_mip) {
+                localStorage.setItem('ssidgen', ssidGenerated);
             }
 
             if (selection.examen === 'anl' && selection.type[0]) {
@@ -447,7 +459,8 @@ const FormPage = (props) => {
                 specTitle,
                 date: `${year}-${month}-${day}`,
                 addAdh,
-                anls
+                anls,
+                ssidGenerated
             }
 
             if (selection.adh_mip) {
@@ -487,9 +500,9 @@ const FormPage = (props) => {
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
                             <label htmlFor="">N°SS</label>
-                            <input onChange={ssidChangeHandler} pattern="\d*" onKeyDown={adhFetchHandler} type="number" placeholder="" value={ssid}/>
+                            <input onChange={ssidChangeHandler} pattern="\d*" disabled={ssidGenerated==='true'} onKeyDown={adhFetchHandler} type="number" placeholder="" value={ssid}/>
                         </div>
-                        {selection.adh_mip ? null : <SmallBtn click={generateSsidHandler}>Générer</SmallBtn>}
+                        {selection.adh_mip ? null : <SmallBtn click={generateSsidHandler}>{ssidGenerated==='false' ? 'Générer' : 'Supprimer'}</SmallBtn>}
                     </div>
                     
                     <div className={classes.FormGroup}>

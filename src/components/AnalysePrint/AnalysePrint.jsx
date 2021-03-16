@@ -59,7 +59,7 @@ const AnalysePrint = (props) => {
         fetchedAnl.push(props.anl.filter(item => item.id === selectedAnl[i])[0]);
     }
     list = fetchedAnl.map(item => (
-        <tr>
+        <tr key={item.title}>
             <td>{item.title}</td>
             <td>{typePat==='true' ? montantFormatHandler(item.price_adh) : montantFormatHandler(item.price_nonadh)}</td>
         </tr>
@@ -77,7 +77,7 @@ const AnalysePrint = (props) => {
                 <div className={classes.Infos}>
                     <div><b>Bon n°</b> {localStorage.getItem('bon')}</div>
                     <div><b>Date:</b> {`${day}/${month}/${year}`}</div>
-                    <div><b>N° SS:</b> {localStorage.getItem('ssid')}</div>
+                    <div><b>N° SS:</b> {localStorage.getItem('ssidgen')==='false' ? localStorage.getItem('ssid') : '--'}</div>
                     <div><b>Nom:</b> {localStorage.getItem('nom')}</div>
                     <div><b>Prénom:</b> {localStorage.getItem('pre')}</div>
                     <div><b>Régime:</b> {localStorage.getItem('reg')}</div>
@@ -112,7 +112,7 @@ const AnalysePrint = (props) => {
                 <div className={classes.Infos}>
                     <div><b>Bon n°</b> {localStorage.getItem('bon')}</div>
                     <div><b>Date:</b> {`${day}/${month}/${year}`}</div>
-                    <div><b>N° SS:</b> {localStorage.getItem('ssid')}</div>
+                    <div><b>N° SS:</b> {localStorage.getItem('ssidgen')==='false' ? localStorage.getItem('ssid') : '--'}</div>
                     <div><b>Nom:</b> {localStorage.getItem('nom')}</div>
                     <div><b>Prénom:</b> {localStorage.getItem('pre')}</div>
                     <div><b>Régime:</b> {localStorage.getItem('reg')}</div>

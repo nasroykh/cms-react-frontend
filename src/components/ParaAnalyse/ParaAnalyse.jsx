@@ -22,32 +22,55 @@ const ParaAnalyse = (props) => {
             for (let i = 0; i < fetched.length; i++) {
                 for (let j = 0; j < all.length; j++) {
                     if (fetched[i].anl === all[j].id) {
+                        let price;
+                        switch (fetched[i].adh) {
+                            case 'true':
+                                price = all[j].price_adh;
+                                break;
+                        
+                            case 'false':
+                                price = all[j].price_nonadh;
+                                break;
+
+                            default:
+                                break;
+                        }
                         arr.push({
                             id: fetched[i].anl,
                             title: all[j].title,
                             nombre: fetched[i].nombre,
-                            date: fetched[i].date,
-                            price_adh: all[j].price_adh,
-                            price_nonadh: all[j].price_nonadh
+                            price: price*fetched[i].nombre,
+                            type: fetched[i].adh
                         });
                     }
                 }   
             }
-            console.log(arr);
+            if (localStorage.getItem('an_type') === 'all') {
+                for (let i = 1 ; i<arr.length ; i++) {
+                    if (arr[i].id === arr[i-1].id) {
+                        arr[i-1].price += arr[i].price;
+                        arr[i-1].nombre += arr[i].nombre;
+                        arr.splice(i,1);
+                    }
+                }
+            }
+
             setFetchedAnl(arr);
 
         })
         .catch(err => {
             console.log(err);
         })
+
+
         
-        setTimeout(() => {
-            window.print();
-            setTimeout(() => {
-                localStorage.clear();
-                history.goBack();
-            }, 500);
-        }, 500);
+        // setTimeout(() => {
+        //     window.print();
+        //     setTimeout(() => {
+        //         localStorage.clear();
+        //         history.goBack();
+        //     }, 500);
+        // }, 500);
 
     }, []);
 
@@ -86,20 +109,22 @@ const ParaAnalyse = (props) => {
         return newNum;
     }
 
-
-
     let montantTotal = () => {
         let sum = 0;
         for (let i = 0; i < fetchedAnl.length; i++) {
-            if (localStorage.getItem('an_type')==='adh') {
-                sum += (fetchedAnl[i].price_adh*fetchedAnl[i].nombre);
-            }
-            else {
-                sum += (fetchedAnl[i].price_nonadh*fetchedAnl[i].nombre);
-            }
+            sum += fetchedAnl[i].price;
         }
 
         return sum;
+    }
+
+    let nombreTotal = () => {
+        let num = 0;
+        for (let i = 0; i < fetchedAnl.length; i++) {
+                num += (fetchedAnl[i].nombre);
+        }
+
+        return num;
     }
 
 
@@ -110,27 +135,25 @@ const ParaAnalyse = (props) => {
             <tr key={index}>
                 <td>{item.title}</td>
                 <td>{item.nombre}</td>
-                <td>{item.date}</td>
-                <td>{localStorage.getItem('an_type')==='adh' ? montantFormatHandler(item.price_adh*item.nombre) : montantFormatHandler(item.price_nonadh*item.nombre)}</td>
+                <td>{montantFormatHandler(item.price)}</td>
             </tr>
         )});
-        console.log(list)
         if (list.length > 18) {
             for (let i = 18; i < list.length; i+=20) {
-                list.splice(i,0,(<tr className={classes.PageSep}><td></td><td></td><td></td><td></td></tr>));
+                list.splice(i,0,(<tr className={classes.PageSep} key={'sep'+i}><td></td><td></td><td></td><td></td></tr>));
             }
         }
     }
     else {
         list = (
-            <tr>
+            <tr key='noresult'>
                 <td>Aucun résultat</td>
             </tr>
         )
     }
 
 
-    
+
     
         return (
         <div className={classes.ParaAnalyse}>
@@ -141,13 +164,12 @@ const ParaAnalyse = (props) => {
                     <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
                     <div className={classes.zone}>03, zone de sieges Bethioua</div>
                 </div>
-                <div className={classes.Infos}>Statistiques Parametres Analyses</div>
+                <div className={classes.Infos}>Statistiques Parametres Analyses du {localStorage.getItem('an_min') || '--'} au {localStorage.getItem('an_max') || '--'}</div>
                 <table>
                     <thead>
                         <tr>
                             <th>Type d'analyse</th>
                             <th>Nombre</th>
-                            <th>Date</th>
                             <th>Montant Journalier</th>
                         </tr>
                     </thead>
@@ -157,6 +179,7 @@ const ParaAnalyse = (props) => {
                 </table>
                 <div className={classes.Total}>
                     <div>TOTAL</div>
+                    <div>{nombreTotal()}</div>
                     <div>{montantFormatHandler(montantTotal())}</div>
                 </div>
             </div>

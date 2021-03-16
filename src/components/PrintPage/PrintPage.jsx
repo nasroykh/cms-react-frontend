@@ -75,7 +75,9 @@ const PrintPage = (props) => {
                     <div className={classes.date}>Date: {`${day}/${month}/${year}`}</div>
                     <div className={classes.info}>
                         <div>N° de S/S:</div>
-                        <div>{localStorage.getItem('ssid')}</div>
+                        {localStorage.getItem('ssidgen')==='false' ?
+                        <div>{localStorage.getItem('ssid')}</div> : <div>--</div>
+                        }
                     </div>
                     <div className={classes.info}>
                         <div>Nom:</div>
@@ -116,7 +118,9 @@ const PrintPage = (props) => {
                     <div className={classes.date}>Date: {`${day}/${month}/${year}`}</div>
                     <div className={classes.info}>
                         <div>N° de S/S:</div>
-                        <div>{localStorage.getItem('ssid')}</div>
+                        {localStorage.getItem('ssidgen')==='false' ?
+                        <div>{localStorage.getItem('ssid')}</div> : <div>--</div>
+                        }
                     </div>
                     <div className={classes.info}>
                         <div>Nom:</div>
