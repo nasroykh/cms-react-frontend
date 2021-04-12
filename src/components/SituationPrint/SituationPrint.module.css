@@ -1,0 +1,116 @@
+.SituationPrint {
+    background-color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.Head {
+    display: flex;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 700;
+    letter-spacing: .05rem;
+    line-height: 1.7;
+}
+
+.titre1 , .titre2 {
+    font-size: 1.2em;
+    font-weight: 600;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.zone {
+    font-size: 1em;
+    margin: .25em 0;
+}
+
+.Infos {
+    width: 100%;
+    display: flex;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: .25em 0;
+}
+
+.Infos b {
+    font-weight: 600;
+    text-decoration: underline;
+    padding-right: .25rem;
+}
+
+.BonAnl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.SituationPrint table {
+    width: 90%;
+    position: relative;
+}
+
+.SituationPrint td, .SituationPrint th {
+    padding: .75em .5em;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.SituationPrint td:last-child {
+    border-right: none;
+    text-align: center;
+    font-weight: 600;
+    padding: 0 .25em;
+}
+
+.SituationPrint td:first-child {
+    text-align: left;
+}
+
+.SituationPrint th  {
+    border-top: none;
+    background-color: #3A4750;
+    color: white;
+    position: relative;
+    padding: 1em 0;
+    font-size: 0.90rem;
+}
+
+.SituationPrint th:last-child {
+    border: none;
+}
+
+.SituationPrint tbody tr:nth-child(even) {
+    background-color: rgba(58, 71, 80, 0.05);
+}
+
+.Total {
+    display: grid;
+    grid-template-columns: 60% 20% 20%;
+    width: 90%;
+    border-top: 5px solid #3A4750;
+}
+
+.Total div{
+    padding: 1em;
+    font-size: 0.90rem;
+    font-weight: 700;
+}
+.Total > div:nth-child(2) {
+
+}
+
+.Separator {
+    width: 100%;
+    margin: .5em 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    border-left: 5px solid #3A4750;
+    border-right: 5px solid #3A4750;
+}

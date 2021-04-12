@@ -69,26 +69,21 @@ const AnalysePrint = (props) => {
         <div className={classes.AnalysePrint}>
 
             <div className={classes.BonAnl}>
-                <div className={classes.Head}>
-                    <div className={classes.titre1}>MUTUELLE DE L'INDUSTRIE DU PETROLE</div>
-                    <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
-                    <div className={classes.zone}>03, zone de sieges Bethioua</div>
-                </div>
                 <div className={classes.Infos}>
-                    <div><b>Bon n°</b> {localStorage.getItem('bon')}</div>
+                    <div><b>Ticket n°</b> {localStorage.getItem('bon')}</div>
                     <div><b>Date:</b> {`${day}/${month}/${year}`}</div>
-                    <div><b>N° SS:</b> {localStorage.getItem('ssidgen')==='false' ? localStorage.getItem('ssid') : '--'}</div>
-                    <div><b>Nom:</b> {localStorage.getItem('nom')}</div>
-                    <div><b>Prénom:</b> {localStorage.getItem('pre')}</div>
-                    <div><b>Régime:</b> {localStorage.getItem('reg')}</div>
-                    <div><b>Employeur:</b> {localStorage.getItem('emp')}</div>
-                    <div><b>Béneficiaire:</b> {localStorage.getItem('ben')}</div>
+                    <div><b>SS N°:</b> {localStorage.getItem('ssidgen')==='false' ? localStorage.getItem('ssid') : '--'}</div>
+                    <div><b>First name:</b> {localStorage.getItem('nom')}</div>
+                    <div><b>Last name:</b> {localStorage.getItem('pre')}</div>
+                    <div><b>Status:</b> {localStorage.getItem('reg')}</div>
+                    <div><b>Employer:</b> {localStorage.getItem('emp')}</div>
+                    <div><b>Recipient:</b> {localStorage.getItem('ben')}</div>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Type d'analyse</th>
-                            <th>Montant</th>
+                            <th>Analysis type</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,26 +99,21 @@ const AnalysePrint = (props) => {
             <div className={classes.Separator}></div>
 
             <div className={classes.BonAnl}>
-            <div className={classes.Head}>
-                    <div className={classes.titre1}>MUTUELLE DE L'INDUSTRIE DU PETROLE</div>
-                    <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
-                    <div className={classes.zone}>03, zone de sieges Bethioua</div>
-                </div>
                 <div className={classes.Infos}>
-                    <div><b>Bon n°</b> {localStorage.getItem('bon')}</div>
+                    <div><b>Ticket n°</b> {localStorage.getItem('bon')}</div>
                     <div><b>Date:</b> {`${day}/${month}/${year}`}</div>
-                    <div><b>N° SS:</b> {localStorage.getItem('ssidgen')==='false' ? localStorage.getItem('ssid') : '--'}</div>
-                    <div><b>Nom:</b> {localStorage.getItem('nom')}</div>
-                    <div><b>Prénom:</b> {localStorage.getItem('pre')}</div>
-                    <div><b>Régime:</b> {localStorage.getItem('reg')}</div>
-                    <div><b>Employeur:</b> {localStorage.getItem('emp')}</div>
-                    <div><b>Béneficiaire:</b> {localStorage.getItem('ben')}</div>
+                    <div><b>SS N°:</b> {localStorage.getItem('ssidgen')==='false' ? localStorage.getItem('ssid') : '--'}</div>
+                    <div><b>First name:</b> {localStorage.getItem('nom')}</div>
+                    <div><b>Last name:</b> {localStorage.getItem('pre')}</div>
+                    <div><b>Status:</b> {localStorage.getItem('reg')}</div>
+                    <div><b>Employer:</b> {localStorage.getItem('emp')}</div>
+                    <div><b>Recipient:</b> {localStorage.getItem('ben')}</div>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Type d'analyse</th>
-                            <th>Montant</th>
+                            <th>Analysis type</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -16,8 +16,8 @@ const PrintPage = (props) => {
 
         let print = new Promise((resolve, reject) => {
             window.print();
-            if (localStorage.getItem('exam') === 'Analyses') {
-                if (window.confirm('Voulez vous imprimer la liste d\'analyses ?')) {
+            if (localStorage.getItem('exam') === 'Analysis') {
+                if (window.confirm('Would you like to print analysis report ?')) {
                     resolve();
                 }
                 else {
@@ -56,7 +56,7 @@ const PrintPage = (props) => {
     if (localStorage.getItem('spec')) {
         specialiste = (
             <div className={classes.info}>
-                <div>Spécialité:</div>
+                <div>Specialist:</div>
                 <div>{localStorage.getItem('spec')}</div>
             </div>
         );
@@ -68,87 +68,81 @@ const PrintPage = (props) => {
         content = (
             <div className={classes.PrintPage}>
                 <div className={classes.bon1}>
-                    <div className={classes.titre1}>MUTUELLE DE L'INDUSTRIE DU PETROLE</div>
-                    <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
-                    <div className={classes.zone}>03, zone de sieges Bethioua</div>
-                    <div className={classes.numbon}>Bon n° {localStorage.getItem('bon')}</div>
+                    <div className={classes.numbon}>Ticket n° {localStorage.getItem('bon')}</div>
                     <div className={classes.date}>Date: {`${day}/${month}/${year}`}</div>
                     <div className={classes.info}>
-                        <div>N° de S/S:</div>
+                        <div>SS N°:</div>
                         {localStorage.getItem('ssidgen')==='false' ?
                         <div>{localStorage.getItem('ssid')}</div> : <div>--</div>
                         }
                     </div>
                     <div className={classes.info}>
-                        <div>Nom:</div>
+                        <div>First name:</div>
                         <div>{localStorage.getItem('nom')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Prénom:</div>
+                        <div>Last name:</div>
                         <div>{localStorage.getItem('pre')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Régime:</div>
+                        <div>Status:</div>
                         <div>{localStorage.getItem('reg')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Employeur:</div>
+                        <div>Employer:</div>
                         <div>{localStorage.getItem('emp')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Bénéficiaire:</div>
+                        <div>Recipient:</div>
                         <div>{localStorage.getItem('ben')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Examen médical:</div>
+                        <div>Medical exam:</div>
                         <div>{localStorage.getItem('exam')}</div>
                     </div>
                     {specialiste}
                     <div className={classes.info}>
-                        <div>Total à payer :</div>
+                        <div>Total :</div>
                         <div>{localStorage.getItem('mon')}</div>
                     </div>
                 </div>
                 <div className={classes.Separator}></div>
                 <div className={classes.bon1}>
-                    <div className={classes.titre1}>MUTUELLE DE L'INDUSTRIE DU PETROLE</div>
-                    <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
-                    <div className={classes.zone}>03, zone de sieges Bethioua</div>
-                    <div className={classes.numbon}>Bon n° {localStorage.getItem('bon')}</div>
+                    <div className={classes.numbon}>Ticket n° {localStorage.getItem('bon')}</div>
                     <div className={classes.date}>Date: {`${day}/${month}/${year}`}</div>
                     <div className={classes.info}>
-                        <div>N° de S/S:</div>
+                        <div>SS N°:</div>
                         {localStorage.getItem('ssidgen')==='false' ?
                         <div>{localStorage.getItem('ssid')}</div> : <div>--</div>
                         }
                     </div>
                     <div className={classes.info}>
-                        <div>Nom:</div>
+                        <div>First name:</div>
                         <div>{localStorage.getItem('nom')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Prénom:</div>
+                        <div>Last name:</div>
                         <div>{localStorage.getItem('pre')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Régime:</div>
+                        <div>Status:</div>
                         <div>{localStorage.getItem('reg')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Employeur:</div>
+                        <div>Employer:</div>
                         <div>{localStorage.getItem('emp')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Bénéficiaire:</div>
+                        <div>Recipient:</div>
                         <div>{localStorage.getItem('ben')}</div>
                     </div>
                     <div className={classes.info}>
-                        <div>Examen médical:</div>
+                        <div>Medical exam:</div>
                         <div>{localStorage.getItem('exam')}</div>
                     </div>
                     {specialiste}
                     <div className={classes.info}>
-                        <div>Total à payer :</div>
+                        <div>Total :</div>
                         <div>{localStorage.getItem('mon')}</div>
                     </div>
                 </div>

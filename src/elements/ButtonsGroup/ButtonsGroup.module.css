@@ -14,18 +14,17 @@
     border: none;
     background-color: #3A4750;
     color: #F3F3F3;
-    font-size: 1.4em;
+    font-size: 1.375em;
     transition: background 200ms ease-in-out;
-    font-weight: bold;
+    font-weight: 700;
     width: 100%;
-    padding: 2.5em 3em;
+    padding: 2.5em 0;
     height: 100%;
     cursor: pointer;
     text-align: center;
-}
-
-.ButtonsGroup > a:focus {
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ButtonsGroup span {

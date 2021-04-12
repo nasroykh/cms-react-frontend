@@ -7,15 +7,19 @@ const ButtonsGroup = (props) => {
     return (
         <div className={classes.ButtonsGroup}>
             <NavLink to="/adh_mip">
-                Adhérents MIP
+                Social Member
             </NavLink>
             <span></span>
             <NavLink to="/non_adh">
-                Non-Adhérents
+                Public
+            </NavLink>
+            <span></span>
+            <NavLink to="/situation" >
+                Daily Status Print
             </NavLink>
             <span></span>
             <NavLink to="/archives" >
-                Archives
+                Archive Table
             </NavLink>
         </div>
     )

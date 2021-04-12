@@ -13,10 +13,10 @@ const FormPage = (props) => {
     const history = useHistory();
 
     let regimeAdh = [        
-        {id: '0', title: 'Sélectionner'},
-        {id: 'act', title: 'Actif'},
-        {id: 'ina', title: 'Inactif'},
-        {id: 'veu', title: 'Veuve'}
+        {id: '0', title: 'Select'},
+        {id: 'act', title: 'Active'},
+        {id: 'ina', title: 'Inactive'},
+        {id: 'veu', title: 'Widow'}
     ];
 
 
@@ -26,20 +26,28 @@ const FormPage = (props) => {
     const [employeur, setEmployeur] = useState('');
     const [benef, setBenef] = useState(
         [
-            {id: '0', title: 'Sélectionner'},
-            {id: 'asr', title: 'Assuré'},
-            {id: 'cjt', title: 'Conjoint'},
-            {id: 'enf', title: 'Enfant'}
-        ]);
-        const [examen, setExamen] = useState(
-        [
-            {id: '0', title: 'Sélectionner'},
-            {id: 'anl', title:'Analyses'},
-            {id: 'cg', title:'Consultation généraliste', price_adh: 200, price_nonadh: 300},
-            {id: 'spec', title:'Consultation spécialiste'},
-            {id: 'den', title:'Dentiste'},
-            {id: 'exi', title:'Infirmerie'}
-        ]);
+            {id: '0', title: 'Select'},
+            {id: 'asr', title: 'Social member'},
+            {id: 'cjt', title: 'Spouse'},
+            {id: 'enf', title: 'Child'}
+    ]);
+    const [examen, setExamen] = useState(
+    [
+        {id: '0', title: 'Select'},
+        {id: 'anl', title:'Analysis'},
+        {id: 'cg', title:'Generalist', price_adh: 200, price_nonadh: 300},
+        {id: 'spec', title:'Specialist'},
+        {id: 'den', title:'Dentist'},
+        {id: 'abl', title:'Ablation', price_adh: 150, price_nonadh: 250},
+        {id: 'ech', title:'Echography', price_adh: 500, price_nonadh: 700},
+        {id: 'ecg', title:'E C G', price_adh: 200, price_nonadh: 350},
+        {id: 'efr', title:'E F R', price_adh: 500, price_nonadh: 700},
+        {id: 'inj', title:'Injection', price_adh: 30, price_nonadh: 40},
+        {id: 'pas', title:'Simple dressing', price_adh: 200, price_nonadh: 300},
+        {id: 'pai', title:'Infected dressing', price_adh: 350, price_nonadh: 500},
+        {id: 'pdt', title:'Blood pressure', price_adh: 20, price_nonadh: 30},
+        {id: 'sut', title:'Suture', price_adh: 400, price_nonadh: 500},
+    ]);
     const [selection, setSelection] = useState({
         adh_mip: props.adh,
         regime: '',
@@ -50,7 +58,7 @@ const FormPage = (props) => {
     
     if (!selection.adh_mip) {
         regimeAdh = [        
-            {id: '0', title: 'Sélectionner'},
+            {id: '0', title: 'Select'},
             {id: 'pub', title: 'Public'},
             {id: 'cnv', title: 'Convention'},
         ];
@@ -58,48 +66,33 @@ const FormPage = (props) => {
     const [regime, setRegime] = useState(regimeAdh);
     const [montant, setMontant] = useState(0);
     const [spec, setSpec] = useState([
-        {id: 'end', title:'Endocrinologie', price_adh: 600, price_nonadh: 800},
-        {id: 'foe', title:'Fond d\'oeil (Ophtalmologie)', price_adh: 350, price_nonadh: 400},
-        {id: 'gas', title:'Gastrologie', price_adh: 500, price_nonadh: 700},
-        {id: 'gyn', title:'Gynécologie', price_adh: 600, price_nonadh: 800},
-        {id: 'neu', title:'Neurologie', price_adh: 400, price_nonadh: 600},
+        {id: 'end', title:'Endocrinology', price_adh: 600, price_nonadh: 800},
+        {id: 'gas', title:'Gastrology', price_adh: 500, price_nonadh: 700},
+        {id: 'gyn', title:'Gynecologist', price_adh: 600, price_nonadh: 800},
+        {id: 'neu', title:'Neurology', price_adh: 400, price_nonadh: 600},
+        {id: 'ped', title:'Pediatrics', price_adh: 400, price_nonadh: 600},
+        {id: 'uro', title:'Urology', price_adh: 500, price_nonadh: 700},
+        {id: 'car', title:'Cardiology', price_adh: 600, price_nonadh: 800},
+        {id: 'oph', title:'Ophtalmology', price_adh: 600, price_nonadh: 800},
         {id: 'orl', title:'O.R.L', price_adh: 400, price_nonadh: 600},
-        {id: 'oph', title:'Ophtalmologie', price_adh: 600, price_nonadh: 800},
-        {id: 'car', title:'Cardiologie', price_adh: 600, price_nonadh: 800},
-        {id: 'ped', title:'Pédiatre', price_adh: 400, price_nonadh: 600},
-        {id: 'pne', title:'Pneumologie', price_adh: 500, price_nonadh: 700},
-        {id: 'tra', title:'Traumatologie', price_adh: 400, price_nonadh: 600},
-        {id: 'uro', title:'Urologie', price_adh: 500, price_nonadh: 700},
-        {id: 'dia', title:'Diabetologie', price_adh: 600, price_nonadh: 800},
-    ]);
-    const [exi, setExi] = useState([
-        {id: 'abl', title:'Ablation', price_adh: 150, price_nonadh: 250},
-        {id: 'ech', title:'Echographie', price_adh: 500, price_nonadh: 700},
-        {id: 'ecg', title:'E C G', price_adh: 200, price_nonadh: 350},
-        {id: 'efr', title:'E F R', price_adh: 500, price_nonadh: 700},
-        {id: 'inj', title:'Injection', price_adh: 30, price_nonadh: 40},
-        {id: 'pas', title:'Pansement simple', price_adh: 200, price_nonadh: 300},
-        {id: 'pai', title:'Pansement infecté', price_adh: 350, price_nonadh: 500},
-        {id: 'pdt', title:'Prise de Tension', price_adh: 20, price_nonadh: 30},
-        {id: 'sut', title:'Suture', price_adh: 400, price_nonadh: 500},
+        {id: 'pne', title:'Pneumology', price_adh: 500, price_nonadh: 700},
+        {id: 'foe', title:'Eye fundus (Ophtalmology)', price_adh: 350, price_nonadh: 400},
+        {id: 'tra', title:'Traumatology', price_adh: 400, price_nonadh: 600},
+        {id: 'dia', title:'Diabetology', price_adh: 600, price_nonadh: 800},
     ]);
     const [den, setDen] = useState([
         {id: 'con', title:'Consultation', price_adh: 200, price_nonadh: 400},
-        {id: 'det', title:'Détartrage', price_adh: 400, price_nonadh: 800},
+        {id: 'det', title:'Descaling', price_adh: 400, price_nonadh: 800},
         {id: 'ext', title:'Extraction', price_adh: 300, price_nonadh: 400},
-        {id: 'luv', title:'Lampe UV', price_adh: 500, price_nonadh: 1000},
-        {id: 'sde', title:'Soins dentaire', price_adh: 400, price_nonadh: 800},
+        {id: 'luv', title:'UV Lamp', price_adh: 500, price_nonadh: 1000},
+        {id: 'sde', title:'Dental care', price_adh: 400, price_nonadh: 800},
     ]);
 
     const [addAdh, setAddAdh] = useState(false);
     const [ssidGenerated, setSsidGenerated] = useState('false');
-    const [modalShow, setModalShow] = useState(false);
-    const [modalText, setModalText] = useState('');
-    const [modalType, setModalType] = useState('');
+
     
-    let modalShowHandler = () => {
-        setModalShow(!modalShow);
-    } 
+
     
     let ssidChangeHandler = (event) => {
         setSsid(event.target.value)
@@ -154,14 +147,22 @@ const FormPage = (props) => {
             examen: event.target.value,
             type: []
         })
-        if ( event.target.value=== 'cg') {
-            if (selection.adh_mip) {
-                setMontant(200);
-            } else {
-                setMontant(300);
-            }
-        } else {
-            setMontant(0);
+
+        switch (event.target.value) {
+            case 'anl':
+            case 'spec':
+            case 'den':
+                setMontant(0);
+                break;
+                
+            default:
+                let selectedEx = examen.filter(item => item.id===event.target.value)[0];
+                if (selection.adh_mip) {
+                    setMontant(selectedEx.price_adh);
+                } else {
+                    setMontant(selectedEx.price_nonadh);
+                }
+                break;
         }
     }
 
@@ -199,7 +200,7 @@ const FormPage = (props) => {
 
             if (selection.adh_mip) {
                 if (item.price_adh === 0) {
-                    let newPrice = window.prompt('Prix non disponible, Veuillez le saisir');
+                    let newPrice = window.prompt('Price not available, could you type it ?');
                     if (newPrice) {
                         let oldAn = [...props.anl];
                         for (let i = 0; i<oldAn.length; i++) {
@@ -217,7 +218,7 @@ const FormPage = (props) => {
 
             } else {
                 if (item.price_nonadh === 0) {
-                    let newPrice = window.prompt('Prix non disponible, Veuillez le saisir');
+                    let newPrice = window.prompt('Price not available, could you type it ?');
                     if (newPrice) {
                         let oldAn = [...props.anl];
                         for (let i = 0; i<oldAn.length; i++) {
@@ -288,7 +289,7 @@ const FormPage = (props) => {
 
     switch (selection.examen) {
         case 'spec': 
-            typeExamenTitle = 'Spécialistes';
+            typeExamenTitle = 'Specialists';
             typeExamen=(spec.map((item) => ( 
                 <li key={item.id}>
                     <span>
@@ -300,21 +301,8 @@ const FormPage = (props) => {
             )))
             break;
         
-        case 'exi':
-            typeExamenTitle = 'Infirmerie'
-            typeExamen=(exi.map((item) => ( 
-                <li key={item.id}>
-                    <span>
-                        {item.title}
-                    </span>
-                    <span>{props.adh ? montantFormatHandler.bind(this, item.price_adh)() : montantFormatHandler.bind(this, item.price_nonadh)()}</span>
-                    <span className={classes.Checkbox}><input onClick={checkBoxHandler.bind(this, item)} type="checkbox" name="" id={item.id}/></span>
-                </li> 
-            )))
-            break;
-        
         case 'anl':
-            typeExamenTitle = 'Analyses'
+            typeExamenTitle = 'Analysis'
             typeExamen=(props.anl.map((item) => ( 
                 <li key={item.id}>
                     <span>
@@ -327,7 +315,7 @@ const FormPage = (props) => {
             break;
 
         case 'den':
-            typeExamenTitle = 'Dentiste'
+            typeExamenTitle = 'Dentist'
             typeExamen=(den.map((item) => ( 
                 <li key={item.id}>
                     <span>
@@ -354,31 +342,31 @@ const FormPage = (props) => {
                         if (res.data.success) {
                             if (res.data.contentieux) {
                                 let cont = res.data.contAdh;
-                                let switchToPub = window.confirm(`Cet Adhérent fait parti de la liste des contentieux,\nVoulez vous confirmer ?\n\nNom : "${cont.nom}"\nPrénom : "${cont.prenom}"\nRégion : "${cont.region}"\nDate de retraite : "${cont.date_retraite}"\nNuméro de décision : "${cont.num_decision}"\nCode Entreprise/Unité : "${cont.code_entreprise}/${cont.code_unite}" `)
-                                if (!switchToPub) {
+                                let switchToPub = window.confirm(`This member is blacklisted,\nWould you confirm that ?\n\nFirst name : "${cont.nom}"\nLast name : "${cont.prenom}"\nRegion : "${cont.region}"\nRetirement date : "${cont.date_retraite}"\nDecision number : "${cont.num_decision}"\nCompany Code/Unity : "${cont.code_entreprise}/${cont.code_unite}" `)
+                                if (switchToPub) {
                                     props.history.push('/non_adh');
                                     setMontant(0);
                                     setSelection({...selection, adh_mip: false, examen: '', type: []});
                                 }
                             }
-                            let {nom: nomPat, prenom: prenomPat, emp: empPat, categorie: categoriePat} = res.data.adh;
+                            let {nom: nomPat, prenom: prenomPat, employeur: empPat, categorie: categoriePat} = res.data.adh;
                             setNom(nomPat);
                             setPrenom(prenomPat);
+                            setEmployeur(empPat);
                             let [reg] = regime.filter(item => item.title === categoriePat);
                             setSelection({
                                 ...selection,
                                 regime: reg.id
                             });
-                            setEmployeur(empPat);
                         }
                         else {
-                            let isAddAdh = window.confirm('Adhérent introuvable, Voulez vous l\'ajouter ?');
+                            let isAddAdh = window.confirm('Cannot find this member, Would you like to add him ?');
                             setAddAdh(isAddAdh)
                         }
                     })
-                    .catch(err => alert('ERREUR : VERIFIEZ VOS DONNEES'));
+                    .catch(err => alert('Error : Verify entered data !'));
             } else if ((event.code === 'Enter' || event.code === 'NumpadEnter') && !ssid) {
-                alert('ERREUR : VERIFIEZ VOS DONNEES')
+                alert('Error : Verify entered data !')
             }
         }
     }
@@ -387,7 +375,7 @@ const FormPage = (props) => {
             event.preventDefault();
 
             if (montant === 0) {
-                return alert('ERREUR : VERIFIEZ VOS DONNEES');
+                return alert('Error : Verify entered data !');
             }
 
             if (!selection.adh_mip) {
@@ -442,6 +430,7 @@ const FormPage = (props) => {
                 anls = selection.type;
             }
 
+
             let month = new Date().getMonth() + 1;
             let day = new Date().getDate();
             let year = new Date().getFullYear();
@@ -475,12 +464,12 @@ const FormPage = (props) => {
                         localStorage.setItem('bon',id);
                         history.push('/print');
                     } else {
-                        alert('ERREUR : VERIFIEZ VOS DONNEES')
+                        alert('Error : Verify entered data !')
                     }
                     
                 })
                 .catch(err => {
-                    alert('ERREUR : VERIFIEZ VOS DONNEES')
+                    alert('Error : Verify entered data !')
                 });
     }
 
@@ -499,45 +488,45 @@ const FormPage = (props) => {
                 <form>
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
-                            <label htmlFor="">N°SS</label>
+                            <label htmlFor="">SS N°</label>
                             <input onChange={ssidChangeHandler} pattern="\d*" disabled={ssidGenerated==='true'} onKeyDown={adhFetchHandler} type="number" placeholder="" value={ssid}/>
                         </div>
-                        {selection.adh_mip ? null : <SmallBtn click={generateSsidHandler}>{ssidGenerated==='false' ? 'Générer' : 'Supprimer'}</SmallBtn>}
+                        {selection.adh_mip ? null : <SmallBtn click={generateSsidHandler}>{ssidGenerated==='false' ? 'Generate' : 'Remove'}</SmallBtn>}
                     </div>
                     
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
-                            <label htmlFor="">Nom</label>
+                            <label htmlFor="">First Name</label>
                             <input onChange={nomChangeHandler} type="text" placeholder="" value={nom} disabled={props.adh&&!addAdh}/>
                         </div>
                         <div className={classes.FormInput}>
-                            <label htmlFor="">Prénom</label>
+                            <label htmlFor="">Last Name</label>
                             <input onChange={prenomChangeHandler} type="text" placeholder="" value={prenom} disabled={props.adh&&!addAdh}/>
                         </div>
                     </div>
                     
                     <div className={classes.FormGroup}>
                         <div className={classes.FormInput}>
-                            <label htmlFor="">Régime</label>
+                            <label htmlFor="">Status</label>
                             <select onChange={regimeChangeHandler} value={selection.regime} disabled={props.adh&&!addAdh}>
                                 {regime.map((item) => (<option key={item.id} value={item.id}>{item.title}</option>))}
                             </select>
                         </div>
                         <div className={classes.FormInput}>
-                            <label htmlFor="">Employeur</label>
+                            <label htmlFor="">Employer</label>
                             <input onChange={employeurChangeHandler} type="text" placeholder="" value={employeur} disabled={props.adh&&!addAdh}/>
                         </div>
                     </div>
 
                     <div className={classes.FormGroup}>
                         <div className={`${classes.FormInput} ${classes.BenefInput}`}>
-                            <label htmlFor="">Bénéficiaire</label>
+                            <label htmlFor="">Recipient</label>
                             <select onChange={benefChangeHandler}>
                                 {benef.map((item) => (<option key={item.id} value={item.id}>{item.title}</option>))}
                             </select>
                         </div>
                         <div className={`${classes.FormInput} ${classes.ExamInput}`}>
-                            <label htmlFor="">Examen Médical</label>
+                            <label htmlFor="">Medical Exam</label>
                             <select onChange={examenChangeHandler}>
                                 {examen.map((item) => (<option key={item.id} value={item.id}>{item.title}</option>))}
                             </select>                        
@@ -545,7 +534,7 @@ const FormPage = (props) => {
                     </div>
 
                     <div className={classes.FormInput}>
-                        <label htmlFor="">Montant Total</label>
+                        <label htmlFor="">Total</label>
                         <input type="text" name="" id="" disabled value={montantFormatHandler.bind(this, montant)()} className={classes.SumInput}/>
                     </div>
 
@@ -558,18 +547,15 @@ const FormPage = (props) => {
                     </ul>
 
                     <div className={classes.Buttons}>
-                        <SmallBtn click={resetHandler}>Réinitialiser</SmallBtn>
-                        <SmallBtn click={printHandler}>Imprimer</SmallBtn>
+                        <SmallBtn click={resetHandler}>Reset</SmallBtn>
+                        <SmallBtn click={printHandler}>Print</SmallBtn>
                     </div>
                 </div>
             </div>
             
-            <div onClick={modalShowHandler} className={`${classes.BackDrop} ${modalShow ? classes.ShowBD : ''}`}></div>
+            {/* <div onClick={modalShowHandler} className={`${classes.BackDrop} ${modalShow ? classes.ShowBD : ''}`}></div> */}
 
-            <Modal 
-                toggle={modalShowHandler} 
-                show={modalShow} 
-                modalType={modalType}>{modalText}</Modal>
+            {/* <Modal/> */}
         </div>
     )
 }

@@ -7,6 +7,7 @@ import PrintPage from "./components/PrintPage/PrintPage";
 import AnalysePrint from "./components/AnalysePrint/AnalysePrint";
 import ArchivePage from "./components/ArchivePage/ArchivePage";
 import ParaAnalyse from "./components/ParaAnalyse/ParaAnalyse";
+import SituationPrint from "./components/SituationPrint/SituationPrint";
 
 const App = () => {
 
@@ -58,6 +59,10 @@ const App = () => {
 	return (
 		<div className="App">
 			<Switch>
+                
+                <Route path="/situation" exact>
+					<SituationPrint/>
+				</Route>
 
                 <Route path="/paraprint" exact>
 					<ParaAnalyse anl={anl} />
@@ -83,7 +88,7 @@ const App = () => {
 					<FormPage adh anl={anl} setAnl={setAnl} />
 				</Route>
 
-				<Route path="/" exact>
+				<Route path="/">
 					<LandingPage />
 				</Route>
 			</Switch>

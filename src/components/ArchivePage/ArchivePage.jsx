@@ -218,7 +218,7 @@ class ArchivePage extends Component {
             ascOrder: this.state.ascOrder
         }})
         .then(res => {
-            alert('Tableau exporté, ouverture du dossier contenant le fichier ...');
+            alert('Table exported, opening containing folder...');
         })
         .catch(err => {
             console.log(err)
@@ -372,11 +372,11 @@ class ArchivePage extends Component {
                 <div 
                 className={`${classes.Buttons} ${this.state.filtres ? classes.ButtonsCollapse : ''}`}>
                     <BackBtn/>
-                    <SmallBtn click={this.paraAnlHandler}>Parametres Analyses</SmallBtn>
-                    <SmallBtn click={this.exportHandler}>Exporter</SmallBtn>
-                    <SmallBtn click={this.printHandler}>Imprimer</SmallBtn>
-                    <SmallBtn click={this.resetHandler}>Réinitialiser Filtres</SmallBtn>
-                    <SmallBtn click={this.filtresToggleHandler}>Filtres</SmallBtn>
+                    <SmallBtn click={this.paraAnlHandler}>Analysis parameters</SmallBtn>
+                    <SmallBtn click={this.exportHandler}>Export</SmallBtn>
+                    <SmallBtn click={this.printHandler}>Print</SmallBtn>
+                    <SmallBtn click={this.resetHandler}>Reset filters</SmallBtn>
+                    <SmallBtn click={this.filtresToggleHandler}>Filter</SmallBtn>
                 </div>
                 <div 
                 className={`${classes.SideDrawer} ${this.state.filtres ? classes.Show : null}`}>
@@ -384,20 +384,20 @@ class ArchivePage extends Component {
                         <img src={close} alt=""/>
                     </button>
                     <div className={classes.ParType}>
-                        <label htmlFor="">Par type de patient</label>
-                        <SmallBtn click={this.switchAllHandler} isActive={this.state.type==='all' ? true : false}>Tous</SmallBtn>
-                        <SmallBtn click={this.switchAdhHandler} isActive={this.state.type==='adh' ? true : false}>Adhérents M.I.P</SmallBtn>
-                        <SmallBtn click={this.switchNonAdhHandler} isActive={this.state.type==='non_adh' ? true : false}>Non Adhérents</SmallBtn>
+                        <label htmlFor="">Per patient type</label>
+                        <SmallBtn click={this.switchAllHandler} isActive={this.state.type==='all' ? true : false}>All</SmallBtn>
+                        <SmallBtn click={this.switchAdhHandler} isActive={this.state.type==='adh' ? true : false}>Social member</SmallBtn>
+                        <SmallBtn click={this.switchNonAdhHandler} isActive={this.state.type==='non_adh' ? true : false}>Public</SmallBtn>
                     </div>
                     <div className={classes.DateFilter}>
-                        <label htmlFor="">Par Date</label>
+                        <label htmlFor="">Per Date</label>
                         <div>
-                            <label htmlFor="">Date de début</label>
+                            <label htmlFor="">Start date</label>
                             <input type="date" id="min" onChange={this.dateHandler} value={this.state.min_date} />
                             <button onClick={this.dateResetHandler} id="min_reset"><img src={reset} alt="" srcset=""/></button>
                         </div>
                         <div>
-                            <label htmlFor="">Date de fin</label>
+                            <label htmlFor="">End date</label>
                             <input type="date" id="max" onChange={this.dateHandler} value={this.state.max_date}/>
                             <button onClick={this.dateResetHandler} id="max_reset"><img src={reset} alt="" srcset=""/></button>
                         </div>
@@ -408,34 +408,34 @@ class ArchivePage extends Component {
                         <thead>
                             <tr>
                                 <th id="id" onClick={this.orderHandler}>
-                                    BON {this.state.order==='id' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    TICKET {this.state.order==='id' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="ssid" onClick={this.orderHandler}>
-                                    N° SS {this.state.order==='ssid' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    SS N° {this.state.order==='ssid' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="nom" onClick={this.orderHandler}>
-                                    NOM {this.state.order==='nom' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    FIRST NAME {this.state.order==='nom' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="prenom" onClick={this.orderHandler}>
-                                    PRENOM {this.state.order==='prenom' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    LAST NAME {this.state.order==='prenom' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="employeur" onClick={this.orderHandler}>
-                                    EMPLOYEUR {this.state.order==='employeur' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    EMPLOYER {this.state.order==='employeur' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="beneficiaire" onClick={this.orderHandler}>
-                                    BENEFICIAIRE {this.state.order==='beneficiaire' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
-                                    </th>
+                                    RECIPIENT {this.state.order==='beneficiaire' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                </th>
                                 <th id="examenmedical" onClick={this.orderHandler}>
-                                    EXAMEN MEDICAL {this.state.order==='examenmedical' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    MEDICAL EXAM {this.state.order==='examenmedical' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="spec" onClick={this.orderHandler}>
-                                    SPECIALITE {this.state.order==='spec' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    SPECIALIST {this.state.order==='spec' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="date" onClick={this.orderHandler}>
                                     DATE {this.state.order==='date' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                                 <th id="montant" onClick={this.orderHandler}>
-                                    MONTANT {this.state.order==='montant' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
+                                    TOTAL {this.state.order==='montant' ? <span className={!this.state.ascOrder ? null : classes.ReverseOrder }><img src={chevron} alt=""/></span> : null}
                                     </th>
                             </tr>
                         </thead>

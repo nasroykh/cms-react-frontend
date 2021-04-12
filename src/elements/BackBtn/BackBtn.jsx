@@ -8,7 +8,7 @@ const BackBtn = () => {
         <Link to={"/"} className={classes.BackBtn}>
             <img src={back} alt=""/>
             <span>
-                Retour
+                Back
             </span> 
         </Link>
     )

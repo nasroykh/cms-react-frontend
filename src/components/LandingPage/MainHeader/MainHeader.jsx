@@ -1,15 +1,14 @@
 import React from 'react';
 import classes from './MainHeader.module.css';
-import logo from '../../../assets/logo.png';
+import logo from '../../../assets/logo.svg';
 
 const MainHeader = () => {
     return (
         <header className={classes.MainHeader}>
             <div className={classes.TopLeftHeader}>
-                <img src={logo} alt=""/>
+                <img src={logo} alt="Logo"/>
                 <div>
-                    <h1>Centre Médico Social</h1>
-                    <h1>Bethioua</h1>
+                    <h1>Bethania - Medical Center</h1>
                 </div>
             </div>
         </header>

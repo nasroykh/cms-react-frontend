@@ -64,13 +64,13 @@ const ParaAnalyse = (props) => {
 
 
         
-        // setTimeout(() => {
-        //     window.print();
-        //     setTimeout(() => {
-        //         localStorage.clear();
-        //         history.goBack();
-        //     }, 500);
-        // }, 500);
+        setTimeout(() => {
+            window.print();
+            setTimeout(() => {
+                localStorage.clear();
+                history.goBack();
+            }, 500);
+        }, 500);
 
     }, []);
 
@@ -138,16 +138,11 @@ const ParaAnalyse = (props) => {
                 <td>{montantFormatHandler(item.price)}</td>
             </tr>
         )});
-        if (list.length > 18) {
-            for (let i = 18; i < list.length; i+=20) {
-                list.splice(i,0,(<tr className={classes.PageSep} key={'sep'+i}><td></td><td></td><td></td><td></td></tr>));
-            }
-        }
     }
     else {
         list = (
             <tr key='noresult'>
-                <td>Aucun résultat</td>
+                <td>No result</td>
             </tr>
         )
     }
@@ -159,18 +154,13 @@ const ParaAnalyse = (props) => {
         <div className={classes.ParaAnalyse}>
 
             <div className={classes.BonAnl}>
-                <div className={classes.Head}>
-                    <div className={classes.titre1}>MUTUELLE DE L'INDUSTRIE DU PETROLE</div>
-                    <div className={classes.titre2}>CENTRE MEDICO-SOCIAL</div>
-                    <div className={classes.zone}>03, zone de sieges Bethioua</div>
-                </div>
-                <div className={classes.Infos}>Statistiques Parametres Analyses du {localStorage.getItem('an_min') || '--'} au {localStorage.getItem('an_max') || '--'}</div>
+                <div className={classes.Infos}>Analysis parameters from {localStorage.getItem('an_min') || '--'} to {localStorage.getItem('an_max') || '--'}</div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Type d'analyse</th>
-                            <th>Nombre</th>
-                            <th>Montant Journalier</th>
+                            <th>Analysis type</th>
+                            <th>Number</th>
+                            <th>Daily amount</th>
                         </tr>
                     </thead>
                     <tbody>
